@@ -1,19 +1,19 @@
-<!DOCTYPE html>    
-<html lang="ta">    
-<head>    
-  <meta charset="utf-8" />    
-  <meta name="viewport" content="width=device-width,initial-scale=1" />    
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Kalvi Vaanam</title>    <!-- ✅ SEO Tamil + English Optimized Meta Tags -->  <meta name="description" content="Kalvi Vaanam – இலவச கல்வி, அறிவு, தொழில்நுட்பம், அறிவியல், கணினி, கோடிங், மற்றும் பல பாடங்களை தமிழில் கற்றுக்கொள்ள உதவும் சிறந்த கல்வி தளம்.     
-Kalvi Vaanam is a Tamil educational platform offering free lessons, science, and technology in Tamil for all learners.">  
-<meta name="keywords" content="கல்வி வானம், Kalvi Vaanam, தமிழ் கல்வி தளம், இலவச கல்வி, ஆன்லைன் கல்வி, தமிழ் கற்றல், கல்வி இணையதளம், தொழில்நுட்பம் தமிழில், சயின்ஸ் தமிழில், கோடிங் தமிழில், Free Tamil Learning, Tamil Study Website, Education Website in Tamil, Tamil Knowledge, Learn in Tamil, Tamil Courses, Free Courses Tamil">  
-<meta name="author" content="Kalvi Vaanam குழு">  
-<meta name="robots" content="index, follow">  
-<meta property="og:title" content="Kalvi Vaanam – தமிழ் கல்வி தளம் | Tamil Educational Website">  
-<meta property="og:description" content="இலவச கல்வி, அறிவியல், தொழில்நுட்பம், கோடிங் — எல்லாம் தமிழில். Learn freely in Tamil with Kalvi Vaanam.">  
-<meta property="og:image" content="https://kalvivaanam.in/images/og-image.jpg">  
-<meta property="og:url" content="https://kalvivaanam.in">  
-<meta name="twitter:card" content="summary_large_image">  
-  
+Kalvi Vaanam is a Tamil educational platform offering free lessons, science, and technology in Tamil for all learners.">
+<meta name="keywords" content="கல்வி வானம், Kalvi Vaanam, தமிழ் கல்வி தளம், இலவச கல்வி, ஆன்லைன் கல்வி, தமிழ் கற்றல், கல்வி இணையதளம், தொழில்நுட்பம் தமிழில், சயின்ஸ் தமிழில், கோடிங் தமிழில், Free Tamil Learning, Tamil Study Website, Education Website in Tamil, Tamil Knowledge, Learn in Tamil, Tamil Courses, Free Courses Tamil">
+<meta name="author" content="Kalvi Vaanam குழு">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="Kalvi Vaanam – தமிழ் கல்வி தளம் | Tamil Educational Website">
+<meta property="og:description" content="இலவச கல்வி, அறிவியல், தொழில்நுட்பம், கோடிங் — எல்லாம் தமிழில். Learn freely in Tamil with Kalvi Vaanam.">
+<meta property="og:image" content="https://kalvivaanam.in/images/og-image.jpg">
+<meta property="og:url" content="https://kalvivaanam.in">
+<meta name="twitter:card" content="summary_large_image">
+
   <style>    
     :root {    
       --accent: #009dff;    
@@ -269,35 +269,33 @@ Kalvi Vaanam is a Tamil educational platform offering free lessons, science, and
       font-weight: 600;  
       white-space: nowrap;  
       border: none;  
-      cursor: pointer;    
+      cursor: pointer;  
     }  
     .download-btn:hover { opacity: 0.95; transform: translateY(-1px); }  
 
-    /* ======= Latest updates styles (added) ======= */
-    #latestUpdates {
-      margin: 12px auto 0 auto;
-      max-width: 820px;
+    /* Latest updates list style */
+    .latest-box {
+      max-width: 920px;
+      margin: 14px auto 0 auto;
       background: #fff;
       border-radius: 10px;
       box-shadow: 0 14px 30px rgba(0,0,0,0.06);
-      padding: 10px;
-      display: none;
+      padding: 12px;
     }
-    #latestUpdates h3 {
+    .latest-title {
+      font-weight: 700;
       color: var(--accent);
-      margin: 8px 12px;
+      margin-bottom: 10px;
       font-size: 16px;
     }
-    .latest-row {
-      padding: 10px 12px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      border-bottom:1px solid rgba(0,0,0,0.06);
-      gap:10px;
+    .latest-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 6px;
+      border-bottom: 1px solid rgba(0,0,0,0.06);
     }
-    .latest-row:last-child { border-bottom: none; }
-    .latest-title { flex:1; font-size:15px; color:var(--text); }
+    .latest-item:last-child { border-bottom: none; }
 
     @media (max-width: 520px) {  
       .sitename { font-size: 26px; }  
@@ -316,7 +314,7 @@ Kalvi Vaanam is a Tamil educational platform offering free lessons, science, and
     <div class="menu-icon" id="menuBtn">三</div>    
     <div class="header-underline"></div>    
   </header>    
-  
+    
   <!-- ====== GREEN / BLUE AREA (search must be inside this area) ====== -->  
   <section class="hero-blue" aria-label="Hero area for search">  
     <div class="search-wrapper">  
@@ -325,21 +323,27 @@ Kalvi Vaanam is a Tamil educational platform offering free lessons, science, and
         <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M21 21l-4.35-4.35" stroke="#009dff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="11" cy="11" r="6" stroke="#009dff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>  
         <input id="searchInput" type="text" placeholder="Search PDF by name..." aria-label="Search PDF by name" autocomplete="off">  
       </div>  
-    </div>  
-  
-    <!-- Results appear here (inside green/blue area, below search) -->  
-    <div class="results-list" id="resultsList" role="list" aria-hidden="true"></div>
-
-    <!-- LATEST UPDATES container will be injected by JS (shows 5 latest PDFs) -->
-    <div id="latestUpdates" aria-hidden="false" style="display:none;">
-      <h3>புதிய அப்டேட்கள் — Latest Updates</h3>
-      <div id="latestList"></div>
     </div>
 
+    <!-- ====== LATEST UPDATES SECTION (ADDED) ======
+         - Shows top 5 entries from pdf-list.html when search input is empty.
+         - When user types in search, this section is hidden automatically.
+         - NO change elsewhere; this is an added block only.
+    -->
+    <div id="latestUpdates" class="latest-box" aria-live="polite">
+      <div class="latest-title"> புது வெளியீடு / Latest Updates</div>
+      <div id="latestList">
+        <!-- JS will populate 5 latest items here from pdf-list.html -->
+        <div style="color:#666; padding:8px 6px;">Loading latest updates…</div>
+      </div>
+    </div>
+
+    <!-- Results appear here (inside green/blue area, below search) -->  
+    <div class="results-list" id="resultsList" role="list" aria-hidden="true"></div>  
   </section>  
   
   <main></main>    
-  
+    
   <!-- ✅ Side Menu -->    
   <aside class="side-overlay" id="sideOverlay">    
     <div class="side-close" id="sideClose">×</div>    
@@ -388,7 +392,7 @@ Kalvi Vaanam is a Tamil educational platform offering free lessons, science, and
     const menuBtn = document.getElementById("menuBtn");    
     const side = document.getElementById("sideOverlay");    
     const sideClose = document.getElementById("sideClose");    
-  
+    
     menuBtn.addEventListener("click", () => side.classList.add("open"));    
     sideClose.addEventListener("click", () => side.classList.remove("open"));    
     side.addEventListener("click", (e) => {    
@@ -397,7 +401,7 @@ Kalvi Vaanam is a Tamil educational platform offering free lessons, science, and
     document.addEventListener("keydown", (e) => {    
       if (e.key === "Escape") side.classList.remove("open");    
     });    
-  
+    
     function openClassBox() {    
       document.getElementById("classBox").style.display = "block";    
     }    
@@ -407,7 +411,7 @@ Kalvi Vaanam is a Tamil educational platform offering free lessons, science, and
     function openClass(page) {    
       window.location.href = page;    
     }    
-  
+    
     /* ================= SEARCH LOGIC (keyword/partial match) =================  
        - pdf-list.html acts as the database: contains <li data-name="..." data-url="..."> entries  
        - This script fetches that page and builds pdfList automatically (no manual edits needed).  
@@ -415,181 +419,172 @@ Kalvi Vaanam is a Tamil educational platform offering free lessons, science, and
          * Case-insensitive.  
          * If the full query string is included in PDF name OR  
            all words in the query appear inside PDF name (tokens) -> match.  
-         * That allows users to type simple words like "computer", "science", "computer science", "11th", "midterm", "tamil" etc.  
-       - Results shown as: PDF name + blue Download button (opens in new tab).  
+       - ADDED: Latest Updates logic (shows top 5 entries when search empty)  
     ===================================================================*/  
     let pdfList = [];  
-  
-    (async function loadPdfDatabase() {  
-      try {  
-        const res = await fetch('pdf-list.html', {cache: 'no-store'});  
-        if (!res.ok) {  
-          console.warn('pdf-list.html not found or failed to load:', res.status);  
-          return;  
-        }  
-        const text = await res.text();  
-        const parser = new DOMParser();  
-        const doc = parser.parseFromString(text, 'text/html');  
-        const items = doc.querySelectorAll('#pdflist li');  
-  
-        items.forEach(li => {  
-          const nameAttr = li.getAttribute('data-name');  
-          const urlAttr = li.getAttribute('data-url');  
-          const a = li.querySelector('a');  
-          const name = (nameAttr && nameAttr.trim()) || (a ? a.textContent.trim() : li.textContent.trim());  
-          const url = (urlAttr && urlAttr.trim()) || (a ? a.href.trim() : '');  
-          if (name && url) {  
-            pdfList.push({ name, url, nameLower: name.toLowerCase() });  
-          }  
-        });  
-      } catch (err) {  
-        console.error('Error loading pdf database:', err);  
-      }  
-    })();  
-  
-    const searchInput = document.getElementById('searchInput');  
-    const resultsList = document.getElementById('resultsList');  
-  
-    function clearResults() {  
-      resultsList.innerHTML = '';  
-      resultsList.style.display = 'none';  
-      resultsList.setAttribute('aria-hidden', 'true');  
-    }  
-  
-    function renderResults(matches) {  
-      resultsList.innerHTML = '';  
-      matches.forEach(item => {  
-        const row = document.createElement('div');  
-        row.className = 'result-row';  
-  
-        const title = document.createElement('div');  
-        title.className = 'result-title';  
-        title.textContent = item.name;  
-  
-        const btn = document.createElement('a');  
-        btn.className = 'download-btn';  
-        btn.href = item.url;  
-        btn.target = '_blank';  
-        btn.rel = 'noopener noreferrer';  
-        btn.textContent = 'Download';  
-  
-        row.appendChild(title);  
-        row.appendChild(btn);  
-        resultsList.appendChild(row);  
-      });  
-  
-      if (matches.length > 0) {  
-        resultsList.style.display = 'block';  
-        resultsList.setAttribute('aria-hidden', 'false');  
-      } else {  
-        clearResults();  
-      }  
-    }  
-  
-    // match logic: full query included OR all tokens included  
-    function keywordMatch(query) {  
-      if (!query) return [];  
-      const q = query.trim().toLowerCase();  
-      const tokens = q.split(/\s+/).filter(Boolean);  
-      // return items where either name includes whole query OR every token is included  
-      return pdfList.filter(p => {  
-        if (p.nameLower.includes(q)) return true;  
-        // check all tokens  
-        return tokens.every(t => p.nameLower.includes(t));  
-      });  
-    }  
-  
-    // show results as user types  
-    searchInput.addEventListener('input', (e) => {  
-      const val = e.target.value;  
-      if (!val || val.trim() === '') {  
-        clearResults();  
-        return;  
-      }  
-      const matches = keywordMatch(val);  
-      if (matches.length > 0) renderResults(matches);  
-      else clearResults();  
-    });  
-  
-    // Enter: open first match if exists  
-    searchInput.addEventListener('keydown', (e) => {  
-      if (e.key === 'Enter') {  
-        const matches = keywordMatch(searchInput.value);  
-        if (matches.length > 0) {  
-          window.open(matches[0].url, '_blank', 'noopener');  
-        }  
-      }  
-    });  
-  
-    // hide results when clicking outside  
-    document.addEventListener('click', (ev) => {  
-      const tgt = ev.target;  
-      if (!tgt.closest('.search-box') && !tgt.closest('#resultsList')) {  
-        clearResults();  
-      }  
-    });  
-  
-    // initial state  
-    clearResults();  
-  </script>
 
-  <!-- ========== ADDITIONAL JAVASCRIPT (no changes to above lines) ========== -->
-  <!-- This script injects the "Latest Updates" list (5 newest from pdfList) and
-       automatically hides Latest when user types a search (shows search results only). -->
-  <script>
-    (function(){
-      // helper: create latest list entries
-      function buildLatestList() {
-        const latestContainer = document.getElementById('latestList');
-        if (!latestContainer) return;
-        latestContainer.innerHTML = '';
-
-        // If pdfList is empty, show a friendly message
-        if (!window.pdfList || pdfList.length === 0) {
-          latestContainer.innerHTML = '<div style="padding:12px;color:#555">Latest PDF தரவுகள் இல்லை.</div>';
+    async function loadPdfDatabase() {
+      try {
+        const res = await fetch('pdf-list.html', {cache: 'no-store'});
+        if (!res.ok) {
+          console.warn('pdf-list.html not found or failed to load:', res.status);
+          // hide latest updates gracefully if pdf-list not found
+          document.getElementById('latestList').innerHTML = '<div style="color:#666; padding:8px 6px;">No updates found.</div>';
           return;
         }
+        const text = await res.text();
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(text, 'text/html');
+        const items = doc.querySelectorAll('#pdflist li');
 
-        // take last 5 items from pdfList (assuming newest appended at end)
-        const latest = pdfList.slice(-5).reverse(); // reverse so newest first
-
-        latest.forEach(item => {
-          const row = document.createElement('div');
-          row.className = 'latest-row';
-
-          const title = document.createElement('div');
-          title.className = 'latest-title';
-          title.textContent = item.name;
-
-          const btn = document.createElement('a');
-          btn.className = 'download-btn';
-          btn.href = item.url;
-          btn.target = '_blank';
-          btn.rel = 'noopener noreferrer';
-          btn.textContent = 'Download';
-
-          row.appendChild(title);
-          row.appendChild(btn);
-          latestContainer.appendChild(row);
+        items.forEach(li => {
+          const nameAttr = li.getAttribute('data-name');
+          const urlAttr = li.getAttribute('data-url');
+          const a = li.querySelector('a');
+          const name = (nameAttr && nameAttr.trim()) || (a ? a.textContent.trim() : li.textContent.trim());
+          const url = (urlAttr && urlAttr.trim()) || (a ? a.href.trim() : '');
+          if (name && url) {
+            pdfList.push({ name, url, nameLower: name.toLowerCase() });
+          }
         });
-      }
 
-      // show/hide latest block
-      function showLatest(shouldShow) {
-        const el = document.getElementById('latestUpdates');
-        if (!el) return;
-        if (shouldShow) {
-          el.style.display = 'block';
-          el.setAttribute('aria-hidden','false');
-        } else {
-          el.style.display = 'none';
-          el.setAttribute('aria-hidden','true');
+        // After building pdfList, populate latest updates
+        renderLatestUpdates();
+      } catch (err) {
+        console.error('Error loading pdf database:', err);
+        document.getElementById('latestList').innerHTML = '<div style="color:#666; padding:8px 6px;">Error loading updates.</div>';
+      }
+    }
+
+    // Renders top 5 pdfs in latest section
+    function renderLatestUpdates() {
+      const latestList = document.getElementById('latestList');
+      latestList.innerHTML = '';
+      if (!pdfList || pdfList.length === 0) {
+        latestList.innerHTML = '<div style="color:#666; padding:8px 6px;">No updates available.</div>';
+        return;
+      }
+      const top5 = pdfList.slice(0, 5); // take first 5 entries (order comes from pdf-list.html)
+      top5.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'latest-item';
+
+        const left = document.createElement('div');
+        left.style.flex = '1';
+        left.style.marginRight = '12px';
+        left.textContent = item.name;
+
+        const btn = document.createElement('a');
+        btn.className = 'download-btn';
+        btn.href = item.url;
+        btn.target = '_blank';
+        btn.rel = 'noopener noreferrer';
+        btn.textContent = 'Download';
+
+        div.appendChild(left);
+        div.appendChild(btn);
+        latestList.appendChild(div);
+      });
+    }
+
+    // initial load
+    loadPdfDatabase();
+
+    const searchInput = document.getElementById('searchInput');
+    const resultsList = document.getElementById('resultsList');
+    const latestUpdatesEl = document.getElementById('latestUpdates');
+
+    function clearResults() {
+      resultsList.innerHTML = '';
+      resultsList.style.display = 'none';
+      resultsList.setAttribute('aria-hidden', 'true');
+    }
+
+    function renderResults(matches) {
+      resultsList.innerHTML = '';
+      matches.forEach(item => {
+        const row = document.createElement('div');
+        row.className = 'result-row';
+
+        const title = document.createElement('div');
+        title.className = 'result-title';
+        title.textContent = item.name;
+
+        const btn = document.createElement('a');
+        btn.className = 'download-btn';
+        btn.href = item.url;
+        btn.target = '_blank';
+        btn.rel = 'noopener noreferrer';
+        btn.textContent = 'Download';
+
+        row.appendChild(title);
+        row.appendChild(btn);
+        resultsList.appendChild(row);
+      });
+
+      if (matches.length > 0) {
+        resultsList.style.display = 'block';
+        resultsList.setAttribute('aria-hidden', 'false');
+      } else {
+        clearResults();
+      }
+    }
+
+    // match logic: full query included OR all tokens included
+    function keywordMatch(query) {
+      if (!query) return [];
+      const q = query.trim().toLowerCase();
+      const tokens = q.split(/\s+/).filter(Boolean);
+      // return items where either name includes whole query OR every token is included
+      return pdfList.filter(p => {
+        if (p.nameLower.includes(q)) return true;
+        // check all tokens
+        return tokens.every(t => p.nameLower.includes(t));
+      });
+    }
+
+    // show results as user types
+    searchInput.addEventListener('input', (e) => {
+      const val = e.target.value;
+      if (!val || val.trim() === '') {
+        // when search is empty: hide results, show latest updates
+        clearResults();
+        latestUpdatesEl.style.display = 'block';
+        return;
+      }
+      // when user types: hide latest updates, show only results
+      latestUpdatesEl.style.display = 'none';
+      const matches = keywordMatch(val);
+      if (matches.length > 0) renderResults(matches);
+      else clearResults();
+    });
+
+    // Enter: open first match if exists
+    searchInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        const matches = keywordMatch(searchInput.value);
+        if (matches.length > 0) {
+          window.open(matches[0].url, '_blank', 'noopener');
         }
       }
+    });
 
-      // Wait until pdfList is loaded (loaded by existing script)
-      function waitForPdfListAndInit() {
-        let tries = 0;
-        const t = setInterval(() => {
-          tries++;
-          if (win
+    // hide results when clicking outside
+    document.addEventListener('click', (ev) => {
+      const tgt = ev.target;
+      if (!tgt.closest('.search-box') && !tgt.closest('#resultsList')) {
+        clearResults();
+        // if search box empty, show latestUpdates
+        if (!searchInput.value || searchInput.value.trim() === '') {
+          latestUpdatesEl.style.display = 'block';
+        }
+      }
+    });
+
+    // initial state
+    clearResults();
+    // show latestUpdates by default until pdf-list is loaded
+    latestUpdatesEl.style.display = 'block';
+  </script>    
+</body>    
+</html>
