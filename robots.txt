@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://ttnswamidayananda1947-ops.github.io/kalvi-vaanam-official/sitemap.xml
