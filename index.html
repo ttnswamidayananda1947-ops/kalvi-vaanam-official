@@ -31,8 +31,15 @@ body{
 .logo-box{
     width:40px;
     height:40px;
-    background:#ffffff;
     border-radius:50%;
+    overflow:hidden;
+    background:#ffffff;
+}
+
+.logo-box img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
 }
 
 .site-name{
@@ -43,6 +50,25 @@ body{
 .menu-btn{
     font-size:26px;
     cursor:pointer;
+}
+
+/* ===== SEARCH BAR ===== */
+.search-container{
+    width:100%;
+    display:flex;
+    justify-content:center;
+    margin:20px 0;
+}
+
+.search-container input{
+    width:80%;
+    max-width:400px;
+    padding:12px 20px;
+    font-size:18px;
+    border-radius:25px;
+    border:2px solid #0d47a1;
+    outline:none;
+    box-shadow:0 4px 8px rgba(0,0,0,0.1);
 }
 
 /* ===== SIDE MENU ===== */
@@ -76,12 +102,12 @@ body{
 /* ===== MAIN CONTENT ===== */
 .main{
     text-align:center;
-    padding:40px 20px;
+    padding:20px;
 }
 
 .main h1{
     font-size:26px;
-    margin-bottom:30px;
+    margin-bottom:20px;
 }
 
 /* ===== SINGLE CLASS CONTAINER ===== */
@@ -95,12 +121,11 @@ body{
     box-shadow:0 0 10px rgba(0,0,0,0.1);
 }
 
-/* Inside Text */
 .class-container a{
     display:block;
     text-decoration:none;
     color:#0d47a1;
-    font-size:16px;   /* small text */
+    font-size:16px;
     padding:10px 0;
 }
 
@@ -130,17 +155,24 @@ body{
 <!-- HEADER -->
 <div class="header">
     <div class="logo-area">
-        <div class="logo-box"></div>
+        <div class="logo-box">
+            <img src="logo.png" alt="Kalvi Vaanam Logo">
+        </div>
         <div class="site-name">Kalvi Vaanam</div>
     </div>
     <div class="menu-btn" onclick="openMenu()">☰</div>
+</div>
+
+<!-- SEARCH BAR ABOVE MAIN -->
+<div class="search-container">
+    <input type="text" id="searchInput" placeholder="" onkeyup="filterClasses()">
 </div>
 
 <!-- SIDE MENU -->
 <div class="side-menu" id="menu">
     <div class="close-btn" onclick="closeMenu()">✖</div>
     <a href="#">Home</a>
-    <a href="#">Contact</a>
+ <a href="mailto:ttnswamidayananda1947@gmail.com">Contact</a>
 </div>
 
 <!-- MAIN CONTENT -->
@@ -149,7 +181,7 @@ body{
     <h1>Kalvi Vaanam</h1>
 
     <!-- Single Big Border Box -->
-    <div class="class-container">
+    <div class="class-container" id="classContainer">
         <a href="#">6ஆம் வகுப்பு</a>
         <a href="#">7ஆம் வகுப்பு</a>
         <a href="#">8ஆம் வகுப்பு</a>
@@ -164,7 +196,7 @@ body{
 <!-- FOOTER -->
 <div class="footer">
     <a href="#">Home</a>
-    <a href="#">Contact</a>
+<a href="mailto:ttnswamidayananda1947@gmail.com">Contact</a>
 </div>
 
 <script>
@@ -173,6 +205,22 @@ function openMenu(){
 }
 function closeMenu(){
     document.getElementById("menu").style.left="-100%";
+}
+
+// ===== SEARCH FUNCTION =====
+function filterClasses(){
+    let input = document.getElementById('searchInput').value.toLowerCase();
+    let container = document.getElementById('classContainer');
+    let links = container.getElementsByTagName('a');
+
+    for(let i=0; i<links.length; i++){
+        let text = links[i].textContent.toLowerCase();
+        if(text.includes(input)){
+            links[i].style.display = "block";
+        } else {
+            links[i].style.display = "none";
+        }
+    }
 }
 </script>
 
