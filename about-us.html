@@ -3,6 +3,9 @@
 <head>
 <title>About Us</title>
 
+<!-- ✅ IMPORTANT FOR MOBILE VIEW -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <style>
 body{
     margin:0;
@@ -10,6 +13,7 @@ body{
     background:#ffffff;
 }
 
+/* ===== HEADER ===== */
 .header{
     display:flex;
     justify-content:space-between;
@@ -20,7 +24,7 @@ body{
 }
 
 .site-name{
-    font-size:20px;
+    font-size:18px;
     font-weight:bold;
 }
 
@@ -31,18 +35,30 @@ body{
     text-decoration:none;
 }
 
+/* ===== MAIN CONTENT ===== */
 .main{
-    padding:30px;
+    padding:20px;
     max-width:900px;
     margin:auto;
     line-height:1.7;
 }
 
+/* ===== FOOTER ===== */
 .footer{
     background:#eeeeee;
-    padding:40px 20px;
+    padding:30px 20px;
     text-align:center;
     margin-top:60px;
+}
+
+/* ===== DESKTOP IMPROVEMENT ===== */
+@media (min-width:768px){
+    .site-name{
+        font-size:22px;
+    }
+    .main{
+        padding:40px;
+    }
 }
 </style>
 
@@ -59,22 +75,24 @@ body{
 <h1>About Us / எங்களை பற்றி</h1>
 
 <p><strong>English:</strong><br>
-This platform is developed to help students of T.T.N Swami Dayananda Higher Secondary School
-by providing subject-wise study materials and academic updates.
+This platform is developed to help students of T.T.N Swami Dayananda Higher Secondary School  
+by providing subject-wise study materials and academic updates.  
 Our goal is to create a simple and easy learning environment.
 </p>
 
 <hr>
 
 <p><strong>தமிழ்:</strong><br>
-இந்த தளம் T.T.N Swami Dayananda Higher Secondary School மாணவர்களுக்கு
-பாடவாரியான கல்வி வளங்களை வழங்குவதற்காக உருவாக்கப்பட்டுள்ளது.
+இந்த தளம் T.T.N Swami Dayananda Higher Secondary School மாணவர்களுக்கு  
+பாடவாரியான கல்வி வளங்களை வழங்குவதற்காக உருவாக்கப்பட்டுள்ளது.  
 எளிய மற்றும் பயனுள்ள கற்றல் சூழலை உருவாக்குவது எங்கள் நோக்கம்.
 </p>
 
 </div>
 
-
+<div class="footer">
+© 2026 Kalvi Vaanam
+</div>
 
 </body>
 </html>
