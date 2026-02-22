@@ -160,7 +160,7 @@ const db = getFirestore(app);
 
 async function loadSocialSciencePDFs() {
     const contentDiv = document.getElementById("socialscience-content");
-    const pdfRef = collection(db, "classes", "6", "subjects", "socialscience", "pdfs"); // 6th class Social Science PDFs
+    const pdfRef = collection(db, "classes", "6", "subjects", "social", "pdfs"); // 6th class Social Science PDFs
     const snapshot = await getDocs(pdfRef);
 
     snapshot.forEach(doc => {
