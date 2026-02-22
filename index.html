@@ -136,16 +136,51 @@ body{
 /* ===== FOOTER ===== */
 .footer{
     background:#eeeeee;
-    padding:20px;
+    padding:60px 20px;   /* பெரிய height */
     text-align:center;
-    margin-top:50px;
+    margin-top:60px;
 }
 
-.footer a{
+.footer h3{
+    margin-bottom:20px;
+    font-size:20px;
+    color:#0d47a1;
+}
+
+.social-icons{
+    margin:20px 0;
+}
+
+.social-icons a{
+    margin:0 15px;
+    display:inline-block;
+}
+
+.social-icons img{
+    width:35px;
+    height:35px;
+    transition:0.3s;
+}
+
+.social-icons img:hover{
+    transform:scale(1.2);
+}
+
+.footer-links{
+    margin-top:25px;
+}
+
+.footer-links a{
     margin:0 15px;
     text-decoration:none;
     color:#0d47a1;
     font-weight:bold;
+}
+
+.footer p{
+    margin-top:25px;
+    font-size:14px;
+    color:#555;
 }
 </style>
 </head>
@@ -163,16 +198,16 @@ body{
     <div class="menu-btn" onclick="openMenu()">☰</div>
 </div>
 
-<!-- SEARCH BAR ABOVE MAIN -->
+<!-- SEARCH BAR -->
 <div class="search-container">
-    <input type="text" id="searchInput" placeholder="Search here " onkeyup="filterClasses()">
+    <input type="text" id="searchInput" placeholder="Search here" onkeyup="filterClasses()">
 </div>
 
 <!-- SIDE MENU -->
 <div class="side-menu" id="menu">
     <div class="close-btn" onclick="closeMenu()">✖</div>
-    <a href="#">Home</a>
- <a href="mailto:ttnswamidayananda1947@gmail.com">Contact</a>
+    <a href="index.html">Home</a>
+    <a href="mailto:ttnswamidayananda1947@gmail.com">Contact</a>
 </div>
 
 <!-- MAIN CONTENT -->
@@ -180,7 +215,6 @@ body{
 
     <h1>Kalvi Vaanam</h1>
 
-    <!-- Single Big Border Box -->
     <div class="class-container" id="classContainer">
         <a href="#">6ஆம் வகுப்பு</a>
         <a href="#">7ஆம் வகுப்பு</a>
@@ -195,8 +229,33 @@ body{
 
 <!-- FOOTER -->
 <div class="footer">
-    <a href="#">Home</a>
-<a href="mailto:ttnswamidayananda1947@gmail.com">Contact</a>
+
+    <h3>Follow Kalvi Vaanam</h3>
+
+    <div class="social-icons">
+        <!-- Instagram -->
+        <a href="https://www.instagram.com/kalvi_vaanam_offical?igsh=MTZ0Y2JqenhzYXBuYg==" target="_blank">
+            <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png">
+        </a>
+
+        <!-- YouTube -->
+        <a href="https://youtube.com/@kalvivaanam_ttnsdhss?si=BVvAV4Ok6vNEKvms" target="_blank">
+            <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png">
+        </a>
+
+        <!-- Blogger -->
+        <a href="https://blogger.com/" target="_blank">
+            <img src="https://cdn-icons-png.flaticon.com/512/2702/2702602.png">
+        </a>
+    </div>
+
+    <div class="footer-links">
+        <a href="#">Home</a>
+        <a href="mailto:ttnswamidayananda1947@gmail.com">Contact</a>
+    </div>
+
+    <p>© 2026 Kalvi Vaanam - All Rights Reserved</p>
+
 </div>
 
 <script>
@@ -207,7 +266,6 @@ function closeMenu(){
     document.getElementById("menu").style.left="-100%";
 }
 
-// ===== SEARCH FUNCTION =====
 function filterClasses(){
     let input = document.getElementById('searchInput').value.toLowerCase();
     let container = document.getElementById('classContainer');
