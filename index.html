@@ -52,25 +52,6 @@ body{
     cursor:pointer;
 }
 
-/* ===== SEARCH BAR ===== */
-.search-container{
-    width:100%;
-    display:flex;
-    justify-content:center;
-    margin:20px 0;
-}
-
-.search-container input{
-    width:80%;
-    max-width:400px;
-    padding:12px 20px;
-    font-size:18px;
-    border-radius:25px;
-    border:2px solid #0d47a1;
-    outline:none;
-    box-shadow:0 4px 8px rgba(0,0,0,0.1);
-}
-
 /* ===== SIDE MENU ===== */
 .side-menu{
     position:fixed;
@@ -110,7 +91,7 @@ body{
     margin-bottom:20px;
 }
 
-/* ===== SINGLE CLASS CONTAINER ===== */
+/* ===== CLASS CONTAINER ===== */
 .class-container{
     width:75%;
     max-width:320px;
@@ -129,26 +110,35 @@ body{
     padding:10px 0;
 }
 
-.class-container a:hover{
-    text-decoration:underline;
+/* ===== LATEST UPDATES ===== */
+.latest{
+    width:85%;
+    max-width:400px;
+    margin:40px auto;
+    padding:20px;
+    background:#fff3e0;
+    border-left:6px solid #ff9800;
+    box-shadow:0 0 10px rgba(0,0,0,0.1);
+    text-align:left;
+}
+
+.latest h2{
+    margin-bottom:15px;
+    color:#e65100;
+}
+
+.latest a{
+    text-decoration:none;
+    color:#0d47a1;
+    font-weight:bold;
 }
 
 /* ===== FOOTER ===== */
 .footer{
     background:#eeeeee;
-    padding:60px 20px;   /* பெரிய height */
+    padding:60px 20px;
     text-align:center;
     margin-top:60px;
-}
-
-.footer h3{
-    margin-bottom:20px;
-    font-size:20px;
-    color:#0d47a1;
-}
-
-.social-icons{
-    margin:20px 0;
 }
 
 .social-icons a{
@@ -159,103 +149,63 @@ body{
 .social-icons img{
     width:35px;
     height:35px;
-    transition:0.3s;
-}
-
-.social-icons img:hover{
-    transform:scale(1.2);
-}
-
-.footer-links{
-    margin-top:25px;
-}
-
-.footer-links a{
-    margin:0 15px;
-    text-decoration:none;
-    color:#0d47a1;
-    font-weight:bold;
-}
-
-.footer p{
-    margin-top:25px;
-    font-size:14px;
-    color:#555;
 }
 </style>
 </head>
 
 <body>
 
-<!-- HEADER -->
 <div class="header">
     <div class="logo-area">
         <div class="logo-box">
-            <img src="logo.png" alt="Kalvi Vaanam Logo">
+            <img src="logo.png">
         </div>
         <div class="site-name">Kalvi Vaanam</div>
     </div>
     <div class="menu-btn" onclick="openMenu()">☰</div>
 </div>
 
-<!-- SEARCH BAR -->
-<div class="search-container">
-    <input type="text" id="searchInput" placeholder="Search here" onkeyup="filterClasses()">
-</div>
-
-<!-- SIDE MENU -->
 <div class="side-menu" id="menu">
     <div class="close-btn" onclick="closeMenu()">✖</div>
     <a href="index.html">Home</a>
     <a href="mailto:ttnswamidayananda1947@gmail.com">Contact</a>
 </div>
 
-<!-- MAIN CONTENT -->
 <div class="main">
 
     <h1>Kalvi Vaanam</h1>
 
-    <div class="class-container" id="classContainer">
-        <a href="#">6ஆம் வகுப்பு</a>
-        <a href="#">7ஆம் வகுப்பு</a>
-        <a href="#">8ஆம் வகுப்பு</a>
-        <a href="#">9ஆம் வகுப்பு</a>
-        <a href="#">10ஆம் வகுப்பு</a>
-        <a href="#">11ஆம் வகுப்பு</a>
-        <a href="#">12ஆம் வகுப்பு</a>
+    <div class="class-container">
+        <a href="6th.html">6ஆம் வகுப்பு</a>
+        <a href="7th.html">7ஆம் வகுப்பு</a>
+        <a href="8th.html">8ஆம் வகுப்பு</a>
+        <a href="9th.html">9ஆம் வகுப்பு</a>
+        <a href="10th.html">10ஆம் வகுப்பு</a>
+        <a href="11th.html">11ஆம் வகுப்பு</a>
+        <a href="12th.html">12ஆம் வகுப்பு</a>
+    </div>
+
+    <!-- Latest Updates -->
+    <div class="latest">
+        <h2>🔥 Latest Updates</h2>
+        <div id="latestContent">Loading...</div>
     </div>
 
 </div>
 
-<!-- FOOTER -->
 <div class="footer">
-
-    <h3>Follow Kalvi Vaanam</h3>
-
     <div class="social-icons">
-        <!-- Instagram -->
         <a href="https://www.instagram.com/kalvi_vaanam_offical?igsh=MTZ0Y2JqenhzYXBuYg==" target="_blank">
             <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png">
         </a>
-
-        <!-- YouTube -->
         <a href="https://youtube.com/@kalvivaanam_ttnsdhss?si=BVvAV4Ok6vNEKvms" target="_blank">
             <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png">
         </a>
-
-        <!-- Blogger -->
         <a href="https://blogger.com/" target="_blank">
             <img src="https://cdn-icons-png.flaticon.com/512/2702/2702602.png">
         </a>
     </div>
-
-    <div class="footer-links">
-        <a href="#">Home</a>
-        <a href="mailto:ttnswamidayananda1947@gmail.com">Contact</a>
-    </div>
-
-    <p>© 2026 Kalvi Vaanam - All Rights Reserved</p>
-
+    <p>© 2026 Kalvi Vaanam</p>
 </div>
 
 <script>
@@ -266,21 +216,31 @@ function closeMenu(){
     document.getElementById("menu").style.left="-100%";
 }
 
-function filterClasses(){
-    let input = document.getElementById('searchInput').value.toLowerCase();
-    let container = document.getElementById('classContainer');
-    let links = container.getElementsByTagName('a');
+/* ===== RANDOM LATEST UPDATE ===== */
 
-    for(let i=0; i<links.length; i++){
-        let text = links[i].textContent.toLowerCase();
-        if(text.includes(input)){
-            links[i].style.display = "block";
-        } else {
-            links[i].style.display = "none";
-        }
-    }
-}
+let pages = [
+    "6th.html",
+    "7th.html",
+    "8th.html",
+    "9th.html",
+    "10th.html",
+    "11th.html",
+    "12th.html"
+];
+
+let randomPage = pages[Math.floor(Math.random() * pages.length)];
+
+fetch(randomPage)
+.then(response => response.text())
+.then(data => {
+    let parser = new DOMParser();
+    let doc = parser.parseFromString(data, "text/html");
+    let title = doc.querySelector("title").innerText;
+
+    document.getElementById("latestContent").innerHTML =
+        `<a href="${randomPage}">${title}</a>`;
+});
 </script>
 
 </body>
-</html>
+            </html>
