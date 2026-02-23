@@ -91,6 +91,16 @@ body {
     text-decoration:none;
     border-radius:4px;
 }
+.more-btn{
+    display:block;
+    margin:20px auto;
+    padding:8px 15px;
+    background:#0d47a1;
+    color:white;
+    border:none;
+    border-radius:4px;
+    cursor:pointer;
+}
 hr{
     margin:10px 0;
     border:0.5px solid #ccc;
@@ -127,19 +137,18 @@ hr{
 <div class="side-menu" id="menu">
     <div class="close-btn" onclick="closeMenu()">✖</div>
 <a href="https://ttnswamidayananda1947-ops.github.io/kalvi-vaanam-official/">Home</a>
-    <a href="mailto:ttnswamidayananda1947@gmail.com">Contact</a>
-    <a href="https://ttnswamidayananda1947-ops.github.io/kalvi-vaanam-official/privacy-policy.html">Privacy Policy</a>
-    <a href="https://ttnswamidayananda1947-ops.github.io/kalvi-vaanam-official/disclaimer.html">Disclaimer</a>
-    <a href="https://ttnswamidayananda1947-ops.github.io/kalvi-vaanam-official/about-us.html">About Us</a>
-    <a href="https://ttnswamidayananda1947-ops.github.io/kalvi-vaanam-official/terms.html">Terms & Conditions</a>
+<a href="mailto:ttnswamidayananda1947@gmail.com">Contact</a>
+<a href="https://ttnswamidayananda1947-ops.github.io/kalvi-vaanam-official/privacy-policy.html">Privacy Policy</a>
+<a href="https://ttnswamidayananda1947-ops.github.io/kalvi-vaanam-official/disclaimer.html">Disclaimer</a>
+<a href="https://ttnswamidayananda1947-ops.github.io/kalvi-vaanam-official/about-us.html">About Us</a>
+<a href="https://ttnswamidayananda1947-ops.github.io/kalvi-vaanam-official/terms.html">Terms & Conditions</a>
 </div>
 
-<div class="content-area" id="tamil-content">
-    <!-- Firestore PDFs will show here -->
-</div>
+<div class="content-area" id="tamil-content"></div>
+<button class="more-btn" id="toggleBtn" style="display:none;">More</button>
 
 <div class="footer">
-    <p>© 2026 Kalvi Vaanam</p>
+    <p>© <span id="year"></span> Kalvi Vaanam</p>
 </div>
 
 <script type="module">
@@ -158,13 +167,33 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
+let allDocs = [];
+let expanded = false;
+
 async function loadTamilPDFs() {
     const contentDiv = document.getElementById("tamil-content");
-    const pdfRef = collection(db, "classes", "6", "subjects", "tamil", "pdfs"); // 6th class Tamil PDFs
+    const toggleBtn = document.getElementById("toggleBtn");
+    const pdfRef = collection(db, "classes", "6", "subjects", "tamil", "pdfs");
     const snapshot = await getDocs(pdfRef);
 
-    snapshot.forEach(doc => {
-        const data = doc.data();
+    allDocs = [];
+    snapshot.forEach(doc => allDocs.push(doc.data()));
+
+    renderItems();
+
+    if(allDocs.length > 5){
+        toggleBtn.style.display = "block";
+    }
+}
+
+function renderItems(){
+    const contentDiv = document.getElementById("tamil-content");
+    const toggleBtn = document.getElementById("toggleBtn");
+    contentDiv.innerHTML = "";
+
+    const itemsToShow = expanded ? allDocs : allDocs.slice(0,5);
+
+    itemsToShow.forEach(data => {
         const div = document.createElement("div");
         div.className = "pdf-item";
         div.innerHTML = `
@@ -174,7 +203,14 @@ async function loadTamilPDFs() {
         contentDiv.appendChild(div);
         contentDiv.appendChild(document.createElement("hr"));
     });
+
+    toggleBtn.textContent = expanded ? "Show Less" : "More";
 }
+
+document.getElementById("toggleBtn").addEventListener("click", () => {
+    expanded = !expanded;
+    renderItems();
+});
 
 loadTamilPDFs();
 </script>
@@ -182,7 +218,10 @@ loadTamilPDFs();
 <script>
 function openMenu(){ document.getElementById("menu").style.left="0"; }
 function closeMenu(){ document.getElementById("menu").style.left="-100%"; }
+
+// Auto Year
+document.getElementById("year").textContent = new Date().getFullYear();
 </script>
 
 </body>
-  </html>
+</html>
