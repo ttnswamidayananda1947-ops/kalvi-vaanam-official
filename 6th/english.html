@@ -1,189 +1,148 @@
-<!DOCTYPE html>
-<html lang="ta">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kalvi Vaanam - English</title>
+<!DOCTYPE html>  
+<html lang="ta">  
+<head>  
+<meta charset="UTF-8">  
+<meta name="viewport" content="width=device-width, initial-scale=1.0">  
+<title>Kalvi Vaanam - English</title>  
+  
+<style>  
+body { margin:0; font-family: Arial, sans-serif; background:#ffffff; }  
+.header{ display:flex; justify-content:space-between; align-items:center; padding:15px; background:#0d47a1; color:white; }  
+.logo-area{ display:flex; align-items:center; gap:10px; }  
+.logo-box{ width:40px; height:40px; border-radius:50%; overflow:hidden; background:#ffffff; }  
+.logo-box img{ width:100%; height:100%; object-fit:cover; }  
+.site-name{ font-size:22px; font-weight:bold; }  
+.menu-btn{ font-size:26px; cursor:pointer; }  
+.side-menu{ position:fixed; top:0; left:-100%; width:250px; height:100%; background:#f5f5f5; box-shadow:2px 0 5px rgba(0,0,0,0.2); transition:0.3s; padding:20px; z-index:1000; }  
+.side-menu a{ display:block; margin:20px 0; text-decoration:none; color:#333; font-size:18px; }  
+.close-btn{ font-size:22px; cursor:pointer; text-align:right; }  
+.content-area{ width:90%; max-width:600px; margin:30px auto; }  
+.pdf-item{ display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; padding:10px; background:#f9f9f9; border:1px solid #ccc; border-radius:5px; flex-wrap:wrap; }  
+.pdf-item a{ background:#0d47a1; color:white; padding:5px 12px; text-decoration:none; border-radius:4px; font-weight:bold; }  
+hr{ margin:10px 0; border:0.5px solid #0d47a1; }  
+.more-btn{ display:block; margin:20px auto; padding:8px 20px; background:#0d47a1; color:white; border:none; border-radius:5px; cursor:pointer; }  
+@media(max-width:600px){  
+    .pdf-item{ flex-direction:column; align-items:flex-start; }  
+    .pdf-item a{ margin-top:5px; }  
+}  
+.footer{ background:#eeeeee; padding:60px 20px; text-align:center; margin-top:60px; }  
+</style>  
+</head>  
+<body>  
+  
+<div class="header">  
+    <div class="logo-area">  
+        <div class="logo-box">  
+            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjv1C3i-E-b04Ewf8C5OjFaHglfuuaiu-oVUNZGgrVhtVVpTjMgUYvZJ5MqXKNYNWfuuNZ-wE8ojhUK2xLoBIibLPH7x2RRAM4q-PTnKS4ezFSJArQRsCKcTpGB0B7kAASpA9z1WIP-c3cqVzz1-tWQvUHfEnROug5YlCPSJTn8HaleJzeKwcDRG-J7NWU/s320/1000040917.png">  
+        </div>  
+        <div class="site-name">Kalvi Vaanam - English</div>  
+    </div>  
+    <div class="menu-btn" onclick="openMenu()">☰</div>  
+</div>  
+  
+<div class="side-menu" id="menu">  
+    <div class="close-btn" onclick="closeMenu()">✖</div>  
+    <a href="https://ttnswamidayananda1947-ops.github.io/kalvi-vaanam-official/">Home</a>  
+    <a href="mailto:ttnswamidayananda1947@gmail.com">Contact</a>  
+    <a href="https://ttnswamidayananda1947-ops.github.io/kalvi-vaanam-official/privacy-policy.html">Privacy Policy</a>  
+    <a href="https://ttnswamidayananda1947-ops.github.io/kalvi-vaanam-official/disclaimer.html">Disclaimer</a>  
+    <a href="https://ttnswamidayananda1947-ops.github.io/kalvi-vaanam-official/about-us.html">About Us</a>  
+    <a href="https://ttnswamidayananda1947-ops.github.io/kalvi-vaanam-official/terms.html">Terms & Conditions</a>  
+</div>  
+  
+<div class="content-area" id="english-content"></div>  
+<button class="more-btn" id="moreBtn" style="display:none;">More</button>  
+  
+<div class="footer">  
+    <p>© <span id="year"></span> Kalvi Vaanam</p>  
+</div>  
+  
+<script type="module">  
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";  
+import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";  
+  
+const firebaseConfig = {  
+  apiKey: "AIzaSyDADvn4P8g_Dk6fraPNk56Ansrfx5ezgJU",  
+  authDomain: "kalvi-vaanam-db.firebaseapp.com",  
+  projectId: "kalvi-vaanam-db",  
+  storageBucket: "kalvi-vaanam-db.firebasestorage.app",  
+  messagingSenderId: "948342709583",  
+  appId: "1:948342709583:web:81a107e933185a256ab93a"  
+};  
+  
+const app = initializeApp(firebaseConfig);  
+const db = getFirestore(app);  
+  
+let allDocs = [];  
+let showingAll = false;  
+  
+async function loadEnglishPDFs() {  
+    const contentDiv = document.getElementById("english-content");  
+    const moreBtn = document.getElementById("moreBtn");  
+    const pdfRef = collection(db, "classes", "6", "subjects", "english", "pdfs");  
+    const snapshot = await getDocs(pdfRef);  
+  
+    allDocs = snapshot.docs.sort((a,b)=> b.id.localeCompare(a.id));  
+  
+    showTop5();  
+  
+    if(allDocs.length > 5){  
+        moreBtn.style.display = "block";  
+    }  
+  
+    moreBtn.addEventListener("click", ()=>{  
+        if(!showingAll){  
+            showAll();  
+            moreBtn.textContent = "Show Less";  
+            showingAll = true;  
+        } else {  
+            contentDiv.innerHTML = "";  
+            showTop5();  
+            moreBtn.textContent = "More";  
+            showingAll = false;  
+        }  
+    });  
+}  
+  
+function showTop5(){  
+    const contentDiv = document.getElementById("english-content");  
+    contentDiv.innerHTML = "";  
+    allDocs.slice(0,5).forEach(doc => {  
+        addPDF(doc.data());  
+    });  
+}  
+  
+function showAll(){  
+    const contentDiv = document.getElementById("english-content");  
+    contentDiv.innerHTML = "";  
+    allDocs.forEach(doc => {  
+        addPDF(doc.data());  
+    });  
+}  
+  
+function addPDF(data){  
+    const contentDiv = document.getElementById("english-content");  
+    const div = document.createElement("div");  
+    div.className = "pdf-item";  
+    div.innerHTML = `  
+        <span>${data.name}</span>  
+        <a href="${data.link}" target="_blank">Download</a>  
+    `;  
+    contentDiv.appendChild(div);  
+    contentDiv.appendChild(document.createElement("hr"));  
+}  
+  
+loadEnglishPDFs();  
+</script>  
+  
+<script>  
+function openMenu(){ document.getElementById("menu").style.left="0"; }  
+function closeMenu(){ document.getElementById("menu").style.left="-100%"; }  
 
-<style>
-body {
-    margin:0;
-    font-family: Arial, sans-serif;
-    background:#ffffff;
-}
-.header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:15px;
-    background:#0d47a1;
-    color:white;
-}
-.logo-area{
-    display:flex;
-    align-items:center;
-    gap:10px;
-}
-.logo-box{
-    width:40px;
-    height:40px;
-    border-radius:50%;
-    overflow:hidden;
-    background:#ffffff;
-}
-.logo-box img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
-}
-.site-name{
-    font-size:22px;
-    font-weight:bold;
-}
-.menu-btn{
-    font-size:26px;
-    cursor:pointer;
-}
-.side-menu{
-    position:fixed;
-    top:0;
-    left:-100%;
-    width:250px;
-    height:100%;
-    background:#f5f5f5;
-    box-shadow:2px 0 5px rgba(0,0,0,0.2);
-    transition:0.3s;
-    padding:20px;
-    z-index:1000;
-}
-.side-menu a{
-    display:block;
-    margin:20px 0;
-    text-decoration:none;
-    color:#333;
-    font-size:18px;
-}
-.close-btn{
-    font-size:22px;
-    cursor:pointer;
-    text-align:right;
-}
-.content-area{
-    width:90%;
-    max-width:600px;
-    margin:30px auto;
-}
-.pdf-item{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:10px;
-    padding:10px;
-    background:#f9f9f9;
-    border:1px solid #ccc;
-    border-radius:5px;
-    flex-wrap:wrap;
-}
-.pdf-item a{
-    background:#0d47a1;
-    color:white;
-    padding:5px 12px;
-    text-decoration:none;
-    border-radius:4px;
-    font-weight:bold;
-}
-hr{
-    margin:10px 0;
-    border:0.5px solid #0d47a1; /* தெளிவாக பிரிக்க நீலம் */
-}
-@media(max-width:600px){
-    .pdf-item{
-        flex-direction:column;
-        align-items:flex-start;
-    }
-    .pdf-item a{
-        margin-top:5px;
-    }
-}
-.footer{
-    background:#eeeeee;
-    padding:60px 20px;
-    text-align:center;
-    margin-top:60px;
-}
-</style>
-</head>
-<body>
-
-<div class="header">
-    <div class="logo-area">
-        <div class="logo-box">
-            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjv1C3i-E-b04Ewf8C5OjFaHglfuuaiu-oVUNZGgrVhtVVpTjMgUYvZJ5MqXKNYNWfuuNZ-wE8ojhUK2xLoBIibLPH7x2RRAM4q-PTnKS4ezFSJArQRsCKcTpGB0B7kAASpA9z1WIP-c3cqVzz1-tWQvUHfEnROug5YlCPSJTn8HaleJzeKwcDRG-J7NWU/s320/1000040917.png">
-        </div>
-        <div class="site-name">Kalvi Vaanam - English</div>
-    </div>
-    <div class="menu-btn" onclick="openMenu()">☰</div>
-</div>
-
-<div class="side-menu" id="menu">
-    <div class="close-btn" onclick="closeMenu()">✖</div>
-    <a href="https://ttnswamidayananda1947-ops.github.io/kalvi-vaanam-official/">Home</a>
-    <a href="mailto:ttnswamidayananda1947@gmail.com">Contact</a>
-    <a href="https://ttnswamidayananda1947-ops.github.io/kalvi-vaanam-official/privacy-policy.html">Privacy Policy</a>
-    <a href="https://ttnswamidayananda1947-ops.github.io/kalvi-vaanam-official/disclaimer.html">Disclaimer</a>
-    <a href="https://ttnswamidayananda1947-ops.github.io/kalvi-vaanam-official/about-us.html">About Us</a>
-    <a href="https://ttnswamidayananda1947-ops.github.io/kalvi-vaanam-official/terms.html">Terms & Conditions</a>
-</div>
-
-<div class="content-area" id="english-content">
-    <!-- Firestore PDFs will show here -->
-</div>
-
-<div class="footer">
-    <p>© 2026 Kalvi Vaanam</p>
-</div>
-
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyDADvn4P8g_Dk6fraPNk56Ansrfx5ezgJU",
-  authDomain: "kalvi-vaanam-db.firebaseapp.com",
-  projectId: "kalvi-vaanam-db",
-  storageBucket: "kalvi-vaanam-db.firebasestorage.app",
-  messagingSenderId: "948342709583",
-  appId: "1:948342709583:web:81a107e933185a256ab93a"
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-
-async function loadEnglishPDFs() {
-    const contentDiv = document.getElementById("english-content");
-    const pdfRef = collection(db, "classes", "6", "subjects", "english", "pdfs"); // 6th class English PDFs
-    const snapshot = await getDocs(pdfRef);
-
-    snapshot.forEach(doc => {
-        const data = doc.data();
-        const div = document.createElement("div");
-        div.className = "pdf-item";
-        div.innerHTML = `
-            <span>${data.name}</span>
-            <a href="${data.link}" target="_blank">Download</a>
-        `;
-        contentDiv.appendChild(div);
-        contentDiv.appendChild(document.createElement("hr")); // தெளிவாக பிரிக்கும்
-    });
-}
-
-loadEnglishPDFs();
-</script>
-
-<script>
-function openMenu(){ document.getElementById("menu").style.left="0"; }
-function closeMenu(){ document.getElementById("menu").style.left="-100%"; }
-</script>
-
-</body>
+// ✅ Auto Year  
+const currentYear = new Date().getFullYear();  
+document.getElementById("year").textContent = currentYear;  
+</script>  
+  
+</body>  
 </html>
