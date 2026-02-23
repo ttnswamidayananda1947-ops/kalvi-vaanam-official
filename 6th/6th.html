@@ -129,12 +129,17 @@ body {
 </div>
 
 <div class="footer">
-    <p>© 2026 Kalvi Vaanam</p>
+    <p>© <span id="year"></span> Kalvi Vaanam</p>
 </div>
 
 <script>
 function openMenu(){ document.getElementById("menu").style.left="0"; }
 function closeMenu(){ document.getElementById("menu").style.left="-100%"; }
+
+// ✅ Auto Year Script Added
+const currentYear = new Date().getFullYear();
+document.getElementById("year").textContent = currentYear;
+
 </script>
 
 </body>
