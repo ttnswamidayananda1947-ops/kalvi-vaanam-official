@@ -173,7 +173,7 @@ let expanded = false;
 async function loadSocialSciencePDFs() {  
     const contentDiv = document.getElementById("socialscience-content");  
     const toggleBtn = document.getElementById("toggleBtn");  
-    const pdfRef = collection(db, "classes", "9", "subjects", "social", "pdfs");  
+    const pdfRef = collection(db, "classes", "10", "subjects", "social", "pdfs");  
     const snapshot = await getDocs(pdfRef);  
 
     allDocs = [];  
