@@ -173,7 +173,7 @@ let expanded = false;
 async function loadTamilPDFs() {
     const contentDiv = document.getElementById("tamil-content");
     const toggleBtn = document.getElementById("toggleBtn");
-    const pdfRef = collection(db, "classes", "9", "subjects", "tamil", "pdfs");
+    const pdfRef = collection(db, "classes", "10", "subjects", "tamil", "pdfs");
     const snapshot = await getDocs(pdfRef);
 
     allDocs = [];
