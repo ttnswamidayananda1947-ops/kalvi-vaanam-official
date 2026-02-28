@@ -79,7 +79,7 @@ let showingAll = false;
 async function loadSciencePDFs() {  
     const contentDiv = document.getElementById("science-content");
     const moreBtn = document.getElementById("moreBtn");
-    const pdfRef = collection(db, "classes", "9", "subjects", "science", "pdfs");
+    const pdfRef = collection(db, "classes", "10", "subjects", "science", "pdfs");
     const snapshot = await getDocs(pdfRef);
 
     allDocs = snapshot.docs.sort((a,b)=> b.id.localeCompare(a.id));
