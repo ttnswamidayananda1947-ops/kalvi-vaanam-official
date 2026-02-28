@@ -79,7 +79,7 @@ let showingAll = false;
 async function loadEnglishPDFs() {  
     const contentDiv = document.getElementById("english-content");  
     const moreBtn = document.getElementById("moreBtn");  
-    const pdfRef = collection(db, "classes", "9", "subjects", "english", "pdfs");  
+    const pdfRef = collection(db, "classes", "10", "subjects", "english", "pdfs");  
     const snapshot = await getDocs(pdfRef);  
   
     allDocs = snapshot.docs.sort((a,b)=> b.id.localeCompare(a.id));  
