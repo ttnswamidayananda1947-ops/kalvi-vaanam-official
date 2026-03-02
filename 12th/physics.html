@@ -79,7 +79,7 @@ let showingAll = false;
 async function loadMathsPDFs() {
     const contentDiv = document.getElementById("maths-content");
     const moreBtn = document.getElementById("moreBtn");
-    const pdfRef = collection(db, "classes", "11", "subjects", "physics", "pdfs");
+    const pdfRef = collection(db, "classes", "12", "subjects", "physics", "pdfs");
     const snapshot = await getDocs(pdfRef);
 
     allDocs = snapshot.docs.sort((a,b)=> b.id.localeCompare(a.id));
