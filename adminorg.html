@@ -49,10 +49,6 @@ button{
     border-radius:5px;
 }
 
-button:hover{
-    background:#1565c0;
-}
-
 .google-btn{
     background:#db4437;
 }
@@ -77,12 +73,6 @@ button:hover{
 
 .dashboard{
     display:none;
-}
-
-@media(min-width:768px){
-    .container{
-        margin-top:60px;
-    }
 }
 </style>
 </head>
@@ -182,10 +172,40 @@ firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const database = firebase.database();
 
+// ✅ Google Login (Redirect Method - Mobile Safe)
 function googleLogin(){
     const provider = new firebase.auth.GoogleAuthProvider();
-    auth.signInWithPopup(provider);
+    auth.signInWithRedirect(provider);
 }
+
+// ✅ After Redirect Handle
+auth.getRedirectResult().then((result)=>{
+    if(result.user){
+        console.log("Login Success");
+    }
+}).catch((error)=>{
+    alert(error.message);
+});
+
+// ✅ Admin Email Check
+auth.onAuthStateChanged(user=>{
+    if(user){
+
+        if(user.email === "ttnswamidayananda1947@gmail.com"){
+
+            document.getElementById("loginBox").style.display="none";
+            document.getElementById("dashboard").style.display="block";
+
+        }else{
+            alert("Access Denied - Not Admin");
+            auth.signOut();
+        }
+
+    }else{
+        document.getElementById("loginBox").style.display="block";
+        document.getElementById("dashboard").style.display="none";
+    }
+});
 
 function logout(){
     auth.signOut();
@@ -232,16 +252,6 @@ database.ref("classes/"+classVal+"/subjects/"+subjectVal+"/pdfs")
     });
 });
 }
-
-auth.onAuthStateChanged(user=>{
-    if(user){
-        document.getElementById("loginBox").style.display="none";
-        document.getElementById("dashboard").style.display="block";
-    }else{
-        document.getElementById("loginBox").style.display="block";
-        document.getElementById("dashboard").style.display="none";
-    }
-});
 
 </script>
 
