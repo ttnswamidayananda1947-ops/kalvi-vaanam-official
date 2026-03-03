@@ -6,66 +6,16 @@
 <title>Kalvi Vaanam Admin</title>
 
 <style>
-body{
-    margin:0;
-    font-family: Arial, sans-serif;
-    background:#f5f5f5;
-}
-.header{
-    background:#0d47a1;
-    color:white;
-    padding:15px;
-    text-align:center;
-    font-size:20px;
-    font-weight:bold;
-}
-.container{
-    width:95%;
-    max-width:500px;
-    margin:30px auto;
-    padding:20px;
-    background:white;
-    border-radius:8px;
-    box-shadow:0 0 10px rgba(0,0,0,0.1);
-}
-input, select{
-    width:100%;
-    padding:10px;
-    margin:10px 0;
-    box-sizing:border-box;
-}
-button{
-    width:100%;
-    padding:10px;
-    background:#0d47a1;
-    color:white;
-    border:none;
-    cursor:pointer;
-    margin-top:5px;
-    border-radius:5px;
-}
-.google-btn{
-    background:#db4437;
-}
-.success-msg{
-    display:none;
-    background:#c8e6c9;
-    color:#1b5e20;
-    padding:10px;
-    margin-top:10px;
-    text-align:center;
-    font-weight:bold;
-}
-.view-area{
-    margin-top:15px;
-    background:#f1f1f1;
-    padding:10px;
-    min-height:50px;
-    border-radius:5px;
-}
-.dashboard{
-    display:none;
-}
+body{margin:0;font-family:Arial;background:#f5f5f5;}
+.header{background:#0d47a1;color:white;padding:15px;text-align:center;font-size:20px;font-weight:bold;}
+.container{width:95%;max-width:500px;margin:30px auto;padding:20px;background:white;border-radius:8px;box-shadow:0 0 10px rgba(0,0,0,0.1);}
+input,select{width:100%;padding:10px;margin:10px 0;box-sizing:border-box;}
+button{width:100%;padding:10px;background:#0d47a1;color:white;border:none;cursor:pointer;margin-top:5px;border-radius:5px;}
+.google-btn{background:#db4437;}
+.success-msg{display:none;background:#c8e6c9;color:#1b5e20;padding:10px;margin-top:10px;text-align:center;font-weight:bold;}
+.view-area{margin-top:15px;background:#f1f1f1;padding:10px;min-height:50px;border-radius:5px;}
+.dashboard{display:none;}
+.edit-btn{background:#ff9800;margin-top:5px;}
 </style>
 </head>
 
@@ -79,64 +29,33 @@ button{
 
 <div class="container dashboard" id="dashboard">
 
-<h3>Add PDF</h3>
+<h3>Add / Edit PDF</h3>
 
 <select id="classSelect">
 <option value="">Select Class</option>
-<option value="6">6</option>
-<option value="7">7</option>
-<option value="8">8</option>
-<option value="9">9</option>
-<option value="10">10</option>
-<option value="11">11</option>
-<option value="12">12</option>
+<option>6</option><option>7</option><option>8</option>
+<option>9</option><option>10</option><option>11</option><option>12</option>
 </select>
 
 <select id="subjectSelect">
 <option value="">Select Subject</option>
-<option value="tamil">tamil</option>
-<option value="english">english</option>
-<option value="maths">maths</option>
-<option value="science">science</option>
-<option value="social">social</option>
-<option value="physics">physics</option>
-<option value="chemistry">chemistry</option>
-<option value="computerscience">computerscience</option>
+<option>tamil</option><option>english</option><option>maths</option>
+<option>science</option><option>social</option>
+<option>physics</option><option>chemistry</option>
+<option>computerscience</option>
 </select>
 
 <input type="text" id="pdfName" placeholder="PDF Name">
 <input type="text" id="pdfLink" placeholder="PDF Link">
 
-<button onclick="addPDF()">Add PDF</button>
+<button onclick="savePDF()">Save PDF</button>
 
-<div class="success-msg" id="successMsg">
-PDF Added Successfully ✅
-</div>
+<div class="success-msg" id="successMsg">Saved Successfully ✅</div>
 
 <h3>View PDFs</h3>
 
-<select id="viewClass">
-<option value="">Select Class</option>
-<option value="6">6</option>
-<option value="7">7</option>
-<option value="8">8</option>
-<option value="9">9</option>
-<option value="10">10</option>
-<option value="11">11</option>
-<option value="12">12</option>
-</select>
-
-<select id="viewSubject">
-<option value="">Select Subject</option>
-<option value="tamil">tamil</option>
-<option value="english">english</option>
-<option value="maths">maths</option>
-<option value="science">science</option>
-<option value="social">social</option>
-<option value="physics">physics</option>
-<option value="chemistry">chemistry</option>
-<option value="computerscience">computerscience</option>
-</select>
+<select id="viewClass"></select>
+<select id="viewSubject"></select>
 
 <button onclick="viewPDFs()">View</button>
 
@@ -148,112 +67,120 @@ PDF Added Successfully ✅
 
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
 
 <script>
 
 const firebaseConfig = {
   apiKey: "AIzaSyDADvn4P8g_Dk6fraPNk56Ansrfx5ezgJU",
   authDomain: "kalvi-vaanam-db.firebaseapp.com",
-  databaseURL: "https://kalvi-vaanam-db-default-rtdb.firebaseio.com",
   projectId: "kalvi-vaanam-db",
-  storageBucket: "kalvi-vaanam-db.appspot.com",
-  messagingSenderId: "948342709583",
-  appId: "1:948342709583:web:81a107e933185a256ab93a"
 };
 
 firebase.initializeApp(firebaseConfig);
 
 const auth = firebase.auth();
-const database = firebase.database();
+const db = firebase.firestore();
+
+let editId = null;
 
 function googleLogin(){
     const provider = new firebase.auth.GoogleAuthProvider();
-
-    auth.signInWithPopup(provider)
-    .then((result)=>{
-        console.log("Login Success");
-    })
-    .catch((error)=>{
-        alert(error.message);
-    });
+    auth.signInWithPopup(provider);
 }
 
 auth.onAuthStateChanged(user=>{
-    if(user){
-        if(user.email === "ttnswamidayananda1947@gmail.com"){
-            document.getElementById("loginBox").style.display="none";
-            document.getElementById("dashboard").style.display="block";
-        }else{
-            alert("Access Denied - Not Admin");
-            auth.signOut();
-        }
+    if(user && user.email === "ttnswamidayananda1947@gmail.com"){
+        loginBox.style.display="none";
+        dashboard.style.display="block";
     }else{
-        document.getElementById("loginBox").style.display="block";
-        document.getElementById("dashboard").style.display="none";
+        loginBox.style.display="block";
+        dashboard.style.display="none";
     }
 });
 
-function logout(){
-    auth.signOut();
-}
+function logout(){ auth.signOut(); }
 
-function addPDF(){
+function savePDF(){
 
-const classVal = document.getElementById("classSelect").value;
-const subjectVal = document.getElementById("subjectSelect").value;
-const name = document.getElementById("pdfName").value;
-const link = document.getElementById("pdfLink").value;
+const classVal = classSelect.value;
+const subjectVal = subjectSelect.value;
+const name = pdfName.value;
+const link = pdfLink.value;
 
-if(classVal==""||subjectVal==""||name==""||link==""){
+if(!classVal || !subjectVal || !name || !link){
     alert("Fill all fields");
     return;
 }
 
-database.ref("classes/"+classVal+"/subjects/"+subjectVal+"/pdfs").push({
-    name:name,
-    link:link
-}).then(()=>{
-    document.getElementById("successMsg").style.display="block";
-    document.getElementById("pdfName").value="";
-    document.getElementById("pdfLink").value="";
-    setTimeout(()=>{
-        document.getElementById("successMsg").style.display="none";
-    },3000);
-});
+const ref = db.collection("classes")
+              .doc(classVal)
+              .collection("subjects")
+              .doc(subjectVal)
+              .collection("pdfs");
+
+if(editId){
+    ref.doc(editId).update({name,link}).then(()=>{
+        editId=null;
+        showSuccess();
+    });
+}else{
+    ref.add({name,link,createdAt:new Date()}).then(()=>{
+        showSuccess();
+    });
+}
+
+pdfName.value="";
+pdfLink.value="";
+}
+
+function showSuccess(){
+    successMsg.style.display="block";
+    setTimeout(()=>{successMsg.style.display="none";},2000);
 }
 
 function viewPDFs(){
 
-const classVal = document.getElementById("viewClass").value;
-const subjectVal = document.getElementById("viewSubject").value;
-
-const viewArea = document.getElementById("viewArea");
-
-if(classVal=="" || subjectVal==""){
-    alert("Select class & subject");
-    return;
-}
-
+const classVal = viewClass.value;
+const subjectVal = viewSubject.value;
 viewArea.innerHTML="Loading...";
 
-database.ref("classes/"+classVal+"/subjects/"+subjectVal+"/pdfs")
-.once("value",snapshot=>{
+db.collection("classes")
+  .doc(classVal)
+  .collection("subjects")
+  .doc(subjectVal)
+  .collection("pdfs")
+  .get()
+  .then(snapshot=>{
 
     viewArea.innerHTML="";
+    if(snapshot.empty){ viewArea.innerHTML="No PDFs"; return; }
 
-    if(!snapshot.exists()){
-        viewArea.innerHTML="No PDFs Found";
-        return;
-    }
-
-    snapshot.forEach(child=>{
-        const data = child.val();
-        viewArea.innerHTML +=
-        "<p><b>"+data.name+"</b><br><a href='"+data.link+"' target='_blank'>Open PDF</a></p>";
+    snapshot.forEach(doc=>{
+        const data = doc.data();
+        viewArea.innerHTML += `
+        <div>
+          <b>${data.name}</b><br>
+          <a href="${data.link}" target="_blank">Open PDF</a><br>
+          <button class="edit-btn" onclick="editPDF('${doc.id}','${classVal}','${subjectVal}','${data.name}','${data.link}')">✏ Edit</button>
+          <hr>
+        </div>`;
     });
-});
+
+  });
 }
+
+function editPDF(id,classVal,subjectVal,name,link){
+    editId=id;
+    classSelect.value=classVal;
+    subjectSelect.value=subjectVal;
+    pdfName.value=name;
+    pdfLink.value=link;
+    window.scrollTo(0,0);
+}
+
+viewClass.innerHTML = classSelect.innerHTML;
+viewSubject.innerHTML = subjectSelect.innerHTML;
 
 </script>
 
