@@ -11,7 +11,6 @@ body{
     font-family: Arial, sans-serif;
     background:#f5f5f5;
 }
-
 .header{
     background:#0d47a1;
     color:white;
@@ -20,7 +19,6 @@ body{
     font-size:20px;
     font-weight:bold;
 }
-
 .container{
     width:95%;
     max-width:500px;
@@ -30,14 +28,12 @@ body{
     border-radius:8px;
     box-shadow:0 0 10px rgba(0,0,0,0.1);
 }
-
 input, select{
     width:100%;
     padding:10px;
     margin:10px 0;
     box-sizing:border-box;
 }
-
 button{
     width:100%;
     padding:10px;
@@ -48,11 +44,9 @@ button{
     margin-top:5px;
     border-radius:5px;
 }
-
 .google-btn{
     background:#db4437;
 }
-
 .success-msg{
     display:none;
     background:#c8e6c9;
@@ -62,7 +56,6 @@ button{
     text-align:center;
     font-weight:bold;
 }
-
 .view-area{
     margin-top:15px;
     background:#f1f1f1;
@@ -70,7 +63,6 @@ button{
     min-height:50px;
     border-radius:5px;
 }
-
 .dashboard{
     display:none;
 }
@@ -161,10 +153,13 @@ PDF Added Successfully ✅
 <script>
 
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
+  apiKey: "AIzaSyDADvn4P8g_Dk6fraPNk56Ansrfx5ezgJU",
   authDomain: "kalvi-vaanam-db.firebaseapp.com",
   databaseURL: "https://kalvi-vaanam-db-default-rtdb.firebaseio.com",
   projectId: "kalvi-vaanam-db",
+  storageBucket: "kalvi-vaanam-db.appspot.com",
+  messagingSenderId: "948342709583",
+  appId: "1:948342709583:web:81a107e933185a256ab93a"
 };
 
 firebase.initializeApp(firebaseConfig);
@@ -172,35 +167,30 @@ firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const database = firebase.database();
 
-// ✅ Google Login (Redirect Method - Mobile Safe)
 function googleLogin(){
     const provider = new firebase.auth.GoogleAuthProvider();
     auth.signInWithRedirect(provider);
 }
 
-// ✅ After Redirect Handle
-auth.getRedirectResult().then((result)=>{
+auth.getRedirectResult()
+.then((result)=>{
     if(result.user){
         console.log("Login Success");
     }
-}).catch((error)=>{
+})
+.catch((error)=>{
     alert(error.message);
 });
 
-// ✅ Admin Email Check
 auth.onAuthStateChanged(user=>{
     if(user){
-
         if(user.email === "ttnswamidayananda1947@gmail.com"){
-
             document.getElementById("loginBox").style.display="none";
             document.getElementById("dashboard").style.display="block";
-
         }else{
             alert("Access Denied - Not Admin");
             auth.signOut();
         }
-
     }else{
         document.getElementById("loginBox").style.display="block";
         document.getElementById("dashboard").style.display="none";
@@ -212,7 +202,6 @@ function logout(){
 }
 
 function addPDF(){
-
 const classVal = document.getElementById("classSelect").value;
 const subjectVal = document.getElementById("subjectSelect").value;
 const name = document.getElementById("pdfName").value;
@@ -235,7 +224,6 @@ database.ref("classes/"+classVal+"/subjects/"+subjectVal+"/pdfs").push({
 }
 
 function viewPDFs(){
-
 const classVal = document.getElementById("viewClass").value;
 const subjectVal = document.getElementById("viewSubject").value;
 
@@ -247,7 +235,7 @@ database.ref("classes/"+classVal+"/subjects/"+subjectVal+"/pdfs")
     viewArea.innerHTML="";
     snapshot.forEach(child=>{
         const data = child.val();
-        viewArea.innerHTML += 
+        viewArea.innerHTML +=
         "<p><b>"+data.name+"</b><br><a href='"+data.link+"' target='_blank'>Open PDF</a></p>";
     });
 });
