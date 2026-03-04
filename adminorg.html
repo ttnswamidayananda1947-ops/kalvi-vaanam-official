@@ -16,6 +16,7 @@ button{width:100%;padding:10px;background:#0d47a1;color:white;border:none;cursor
 .view-area{margin-top:15px;background:#f1f1f1;padding:10px;min-height:50px;border-radius:5px;}
 .dashboard{display:none;}
 .edit-btn{background:#ff9800;margin-top:5px;}
+.delete-btn{background:#e53935;margin-top:5px;}
 </style>
 </head>
 
@@ -163,6 +164,7 @@ db.collection("classes")
           <b>${data.name}</b><br>
           <a href="${data.link}" target="_blank">Open PDF</a><br>
           <button class="edit-btn" onclick="editPDF('${doc.id}','${classVal}','${subjectVal}','${data.name}','${data.link}')">✏ Edit</button>
+          <button class="delete-btn" onclick="deletePDF('${doc.id}','${classVal}','${subjectVal}')">🗑 Delete</button>
           <hr>
         </div>`;
     });
@@ -177,6 +179,23 @@ function editPDF(id,classVal,subjectVal,name,link){
     pdfName.value=name;
     pdfLink.value=link;
     window.scrollTo(0,0);
+}
+
+function deletePDF(id,classVal,subjectVal){
+
+if(!confirm("Are you sure you want to delete this PDF?")) return;
+
+db.collection("classes")
+  .doc(classVal)
+  .collection("subjects")
+  .doc(subjectVal)
+  .collection("pdfs")
+  .doc(id)
+  .delete()
+  .then(()=>{
+      alert("PDF Deleted Successfully ✅");
+      viewPDFs();
+  });
 }
 
 viewClass.innerHTML = classSelect.innerHTML;
