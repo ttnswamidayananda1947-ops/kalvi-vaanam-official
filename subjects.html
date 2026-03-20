@@ -119,13 +119,8 @@ body {
     <a href="terms.html">Terms & Conditions</a>
 </div>
 
-<div class="subject-box">
-    <a id="tamilLink">தமிழ்</a>
-    <a id="englishLink">English</a>
-    <a id="mathsLink">கணிதம் (Maths)</a>
-    <a id="scienceLink">அறிவியல் (Science)</a>
-    <a id="socialLink">சமூக அறிவியல்</a>
-</div>
+<!-- ⭐ SUBJECTS AUTO LOAD -->
+<div class="subject-box" id="subjectContainer"></div>
 
 <div class="footer">
     <p>© <span id="year"></span> Kalvi Vaanam</p>
@@ -135,24 +130,56 @@ body {
 function openMenu(){ document.getElementById("menu").style.left="0"; }
 function closeMenu(){ document.getElementById("menu").style.left="-100%"; }
 
-const currentYear = new Date().getFullYear();
-document.getElementById("year").textContent = currentYear;
+document.getElementById("year").textContent = new Date().getFullYear();
 
-// ⭐ Dynamic Class Logic
+// ⭐ GET CLASS
 const params = new URLSearchParams(window.location.search);
 const classId = params.get("class");
 
-// Title change
+// Title
 document.title = classId + "th Question Papers – Kalvi Vaanam";
-document.getElementById("classTitle").innerText = "Kalvi Vaanam - " + classId + "th Class";
+document.getElementById("classTitle").innerText =
+"Kalvi Vaanam - " + classId + "th Class";
 
-// Subject Links Dynamic
-document.getElementById("tamilLink").href = "papers.html?class=" + classId + "&subject=tamil";
-document.getElementById("englishLink").href = "papers.html?class=" + classId + "&subject=english";
-document.getElementById("mathsLink").href = "papers.html?class=" + classId + "&subject=maths";
-document.getElementById("scienceLink").href = "papers.html?class=" + classId + "&subject=science";
-document.getElementById("socialLink").href = "papers.html?class=" + classId + "&subject=social";
+// ⭐ SUBJECT LIST LOGIC
+let subjects = [];
 
+// 👉 11 & 12 GROUP SUBJECTS
+if(classId == "11" || classId == "12"){
+    subjects = [
+        {name:"தமிழ்", key:"tamil"},
+        {name:"English", key:"english"},
+        {name:"கணிதம் (Maths)", key:"maths"},
+        {name:"Physics", key:"physics"},
+        {name:"Chemistry", key:"chemistry"},
+        {name:"Computer Science", key:"cs"},
+        {name:"Computer Application", key:"ca"}
+
+        // ⭐ Future subjects add here
+        // {name:"Biology", key:"biology"},
+        // {name:"Commerce", key:"commerce"}
+    ];
+}
+else{
+    // 👉 6–10 NORMAL SUBJECTS
+    subjects = [
+        {name:"தமிழ்", key:"tamil"},
+        {name:"English", key:"english"},
+        {name:"கணிதம் (Maths)", key:"maths"},
+        {name:"அறிவியல் (Science)", key:"science"},
+        {name:"சமூக அறிவியல்", key:"social"}
+    ];
+}
+
+// ⭐ RENDER SUBJECTS
+const container = document.getElementById("subjectContainer");
+
+subjects.forEach(sub => {
+    const a = document.createElement("a");
+    a.innerText = sub.name;
+    a.href = "papers.html?class=" + classId + "&subject=" + sub.key;
+    container.appendChild(a);
+});
 </script>
 
 </body>
