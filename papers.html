@@ -75,7 +75,6 @@ body {
     margin:30px auto;  
 }  
 
-/* ⭐ NEW STYLE (IMAGE LIKE) */  
 .item-box{  
     margin-bottom:20px;  
     padding:10px 0;  
@@ -221,7 +220,7 @@ function renderItems(){
                 <span class="title-text">${data.name}</span>  
             </div>  
             <br>  
-            <a class="download-link" href="${data.link || data.pdfUrl}" target="_blank">Preview & Download</a>  
+            <a class="download-link" href="paper.html?class=${classId}&subject=${subject}&id=${data.id}">Download</a>  
         `;  
 
         contentDiv.appendChild(div);  
@@ -245,4 +244,4 @@ document.getElementById("year").textContent=new Date().getFullYear();
 </script>  
 
 </body>  
-</html>
+                                                                    </html>
