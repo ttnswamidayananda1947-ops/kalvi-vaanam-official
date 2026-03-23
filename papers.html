@@ -68,29 +68,45 @@ body {
     cursor:pointer;  
     text-align:right;  
 }  
+
 .content-area{  
     width:90%;  
     max-width:600px;  
     margin:30px auto;  
 }  
-.pdf-item{  
-    display:flex;  
-    justify-content:space-between;  
-    align-items:center;  
-    margin-bottom:10px;  
-    padding:8px;  
-    background:#f9f9f9;  
-    border:1px solid #ddd;  
-    border-radius:4px;  
-    flex-wrap:wrap;  
+
+/* ⭐ NEW STYLE (IMAGE LIKE) */  
+.item-box{  
+    margin-bottom:20px;  
+    padding:10px 0;  
+    border-bottom:1px solid #ccc;  
 }  
-.pdf-item a{  
-    background:#0d47a1;  
+
+.number{  
+    display:inline-block;  
+    background:#ff5722;  
     color:white;  
-    padding:5px 10px;  
-    text-decoration:none;  
-    border-radius:4px;  
+    width:25px;  
+    height:25px;  
+    border-radius:50%;  
+    text-align:center;  
+    line-height:25px;  
+    margin-right:10px;  
+    font-weight:bold;  
 }  
+
+.title-text{  
+    font-size:16px;  
+    color:#000;  
+    font-weight:bold;  
+}  
+
+.download-link{  
+    color:#0d47a1;  
+    text-decoration:none;  
+    font-weight:bold;  
+}  
+
 .more-btn{  
     display:block;  
     margin:20px auto;  
@@ -101,19 +117,7 @@ body {
     border-radius:4px;  
     cursor:pointer;  
 }  
-hr{  
-    margin:10px 0;  
-    border:0.5px solid #ccc;  
-}  
-@media(max-width:600px){  
-    .pdf-item{  
-        flex-direction:column;  
-        align-items:flex-start;  
-    }  
-    .pdf-item a{  
-        margin-top:5px;  
-    }  
-}  
+
 .footer{  
     background:#eeeeee;  
     padding:60px 20px;  
@@ -122,8 +126,9 @@ hr{
 }  
 </style>  
 </head>  
+
 <body>  
-  
+
 <div class="header">  
     <div class="logo-area">  
         <div class="logo-box">  
@@ -133,7 +138,7 @@ hr{
     </div>  
     <div class="menu-btn" onclick="openMenu()">☰</div>  
 </div>  
-  
+
 <div class="side-menu" id="menu">  
 <div class="close-btn" onclick="closeMenu()">✖</div>  
 <a href="index.html">Home</a>  
@@ -143,18 +148,18 @@ hr{
 <a href="about-us.html">About Us</a>  
 <a href="terms.html">Terms & Conditions</a>  
 </div>  
-  
+
 <div class="content-area" id="content"></div>  
 <button class="more-btn" id="toggleBtn" style="display:none;">More</button>  
-  
+
 <div class="footer">  
 <p>© <span id="year"></span> Kalvi Vaanam</p>  
 </div>  
-  
+
 <script type="module">  
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";  
 import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";  
-  
+
 const firebaseConfig = {  
   apiKey: "AIzaSyDADvn4P8g_Dk6fraPNk56Ansrfx5ezgJU",  
   authDomain: "kalvi-vaanam-db.firebaseapp.com",  
@@ -163,30 +168,27 @@ const firebaseConfig = {
   messagingSenderId: "948342709583",  
   appId: "1:948342709583:web:81a107e933185a256ab93a"  
 };  
-  
+
 const app = initializeApp(firebaseConfig);  
 const db = getFirestore(app);  
-  
-// ⭐ URL Params  
+
 const params = new URLSearchParams(window.location.search);  
 const classId = params.get("class");  
 const subject = params.get("subject");  
-  
-// ⭐ Title Change  
+
 document.title = classId + "th " + subject + " Question Papers";  
 document.getElementById("pageTitle").innerText =  
 "Kalvi Vaanam - " + classId + "th " + subject;  
-  
+
 let allDocs = [];  
 let expanded = false;  
-  
+
 async function loadPDFs() {  
-    const contentDiv = document.getElementById("content");  
     const toggleBtn = document.getElementById("toggleBtn");  
-  
+
     const pdfRef = collection(db,"classes",classId,"subjects",subject,"pdfs");  
     const snapshot = await getDocs(pdfRef);  
-  
+
     allDocs = [];  
     snapshot.forEach(doc=>{  
         allDocs.push({  
@@ -194,48 +196,53 @@ async function loadPDFs() {
             ...doc.data()  
         });  
     });  
-  
+
     renderItems();  
-  
+
     if(allDocs.length>5){  
         toggleBtn.style.display="block";  
     }  
 }  
-  
+
 function renderItems(){  
     const contentDiv = document.getElementById("content");  
     const toggleBtn = document.getElementById("toggleBtn");  
     contentDiv.innerHTML="";  
-  
+
     const itemsToShow = expanded ? allDocs : allDocs.slice(0,5);  
-  
-    itemsToShow.forEach(data=>{  
+
+    itemsToShow.forEach((data,index)=>{  
         const div=document.createElement("div");  
-        div.className="pdf-item";  
+        div.className="item-box";  
+
         div.innerHTML=`  
-            <span>${data.name}</span>  
-            <a href="${data.link || data.pdfUrl}" target="_blank">Download</a>  
+            <div>  
+                <span class="number">${index+1}</span>  
+                <span class="title-text">${data.name}</span>  
+            </div>  
+            <br>  
+            <a class="download-link" href="${data.link || data.pdfUrl}" target="_blank">Preview & Download</a>  
         `;  
+
         contentDiv.appendChild(div);  
-        contentDiv.appendChild(document.createElement("hr"));  
     });  
-  
+
     toggleBtn.textContent = expanded ? "Show Less" : "More";  
 }  
-  
+
 document.getElementById("toggleBtn").addEventListener("click",()=>{  
     expanded=!expanded;  
     renderItems();  
 });  
-  
+
 loadPDFs();  
 </script>  
-  
+
 <script>  
 function openMenu(){ document.getElementById("menu").style.left="0"; }  
 function closeMenu(){ document.getElementById("menu").style.left="-100%"; }  
 document.getElementById("year").textContent=new Date().getFullYear();  
 </script>  
-  
+
 </body>  
 </html>
