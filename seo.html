@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title id="title">Loading...</title>
+
+<meta name="description" id="desc">
+
+</head>
+
+<body>
+
+<h1 id="heading"></h1>
+
+<a id="downloadBtn">Download PDF</a>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+apiKey: "AIzaSy...",
+authDomain: "kalvi-vaanam-db.firebaseapp.com",
+projectId: "kalvi-vaanam-db"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+// ⭐ URL params (SEO style)
+const path = window.location.pathname;
+
+// example: /11th-tamil-question-paper-2024
+const slug = path.replace("/","");
+
+// ⭐ split
+const parts = slug.split("-");
+
+// simple detect
+const classId = parts[0].replace("th","");
+const subject = parts[1];
+
+// ⭐ Firestore fetch
+async function load(){
+
+const ref = doc(db,
+"classes",classId,
+"subjects",subject,
+"pdfs","YOUR_DOC_ID_HERE");
+
+const snap = await getDoc(ref);
+
+if(!snap.exists()){
+document.body.innerHTML="Not Found";
+return;
+}
+
+const data = snap.data();
+
+const pdf = data.pdfUrl || data.link;
+
+// ⭐ SEO set
+document.title = data.name;
+document.getElementById("heading").innerText = data.name;
+document.getElementById("desc").content = data.name;
+
+const btn = document.getElementById("downloadBtn");
+btn.href = pdf;
+btn.innerText = "Download PDF";
+
+}
+
+load();
+
+</script>
+
+</body>
+</html>
