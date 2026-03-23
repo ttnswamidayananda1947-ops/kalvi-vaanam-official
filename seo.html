@@ -7,6 +7,7 @@
 <title id="title">Loading...</title>
 
 <meta name="description" id="desc">
+<meta name="robots" content="index, follow">
 
 </head>
 
@@ -14,7 +15,17 @@
 
 <h1 id="heading"></h1>
 
-<a id="downloadBtn">Download PDF</a>
+<br><br>
+
+<a id="downloadBtn" style="
+display:inline-block;
+background:#0d47a1;
+color:white;
+padding:10px 20px;
+text-decoration:none;
+border-radius:6px;
+font-weight:bold;
+">Download PDF</a>
 
 <script type="module">
 
@@ -22,34 +33,37 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/fireba
 import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const firebaseConfig = {
-apiKey: "AIzaSy...",
-authDomain: "kalvi-vaanam-db.firebaseapp.com",
-projectId: "kalvi-vaanam-db"
+  apiKey: "AIzaSyDADvn4P8g_Dk6fraPNk56Ansrfx5ezgJU",
+  authDomain: "kalvi-vaanam-db.firebaseapp.com",
+  databaseURL: "https://kalvi-vaanam-db-default-rtdb.firebaseio.com",
+  projectId: "kalvi-vaanam-db",
+  storageBucket: "kalvi-vaanam-db.firebasestorage.app",
+  messagingSenderId: "948342709583",
+  appId: "1:948342709583:web:81a107e933185a256ab93a"
 };
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// ⭐ URL params (SEO style)
-const path = window.location.pathname;
+// ✅ URL PARAMS (IMPORTANT FIX)
+const params = new URLSearchParams(window.location.search);
 
-// example: /11th-tamil-question-paper-2024
-const slug = path.replace("/","");
+const classId = params.get("class");
+const subject = params.get("subject");
+const id = params.get("id");
 
-// ⭐ split
-const parts = slug.split("-");
-
-// simple detect
-const classId = parts[0].replace("th","");
-const subject = parts[1];
-
-// ⭐ Firestore fetch
+// ✅ load data
 async function load(){
+
+if(!classId || !subject || !id){
+document.body.innerHTML="Invalid URL";
+return;
+}
 
 const ref = doc(db,
 "classes",classId,
 "subjects",subject,
-"pdfs","YOUR_DOC_ID_HERE");
+"pdfs",id);
 
 const snap = await getDoc(ref);
 
@@ -62,14 +76,15 @@ const data = snap.data();
 
 const pdf = data.pdfUrl || data.link;
 
-// ⭐ SEO set
-document.title = data.name;
+// ✅ SEO
+document.title = data.name + " | Kalvi Vaanam";
 document.getElementById("heading").innerText = data.name;
 document.getElementById("desc").content = data.name;
 
+// ✅ BUTTON
 const btn = document.getElementById("downloadBtn");
 btn.href = pdf;
-btn.innerText = "Download PDF";
+btn.target = "_blank";
 
 }
 
