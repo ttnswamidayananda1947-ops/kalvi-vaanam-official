@@ -32,7 +32,7 @@ font-weight:bold;
 <script type="module">
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getFirestore, doc, getDoc, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDADvn4P8g_Dk6fraPNk56Ansrfx5ezgJU",
@@ -57,25 +57,29 @@ const id = params.get("id");
 // ✅ MAIN LOAD
 async function load(){
 
+// ❗ பாதுகாப்பு check
 if(!classId || !subject || !id){
-document.body.innerHTML="Invalid URL";
+document.body.innerHTML = "Invalid URL";
 return;
 }
 
+// ✅ Firestore fetch
 const ref = doc(db,
-"classes",classId,
-"subjects",subject,
-"pdfs",id);
+"classes", classId,
+"subjects", subject,
+"pdfs", id
+);
 
 const snap = await getDoc(ref);
 
 if(!snap.exists()){
-document.body.innerHTML="Not Found";
+document.body.innerHTML = "Not Found";
 return;
 }
 
 const data = snap.data();
 
+// ✅ PDF LINK FIX (link or pdfUrl)
 const pdf = data.pdfUrl || data.link;
 
 // ✅ SEO TITLE
@@ -84,15 +88,15 @@ document.title = data.name + " | Download PDF | Kalvi Vaanam";
 // ✅ HEADING
 document.getElementById("heading").innerText = data.name;
 
-// ✅ DESCRIPTION (VERY IMPORTANT)
+// ✅ DESCRIPTION (Google முக்கியம் 🔥)
 const descText = data.name + 
 " PDF Download. " + classId + "th " + subject + 
 " Question Papers Tamil Nadu Board. Free Study Material.";
 
-document.getElementById("desc").content = descText;
+document.getElementById("desc").setAttribute("content", descText);
 document.getElementById("descText").innerText = descText;
 
-// ✅ BUTTON
+// ✅ DOWNLOAD BUTTON
 const btn = document.getElementById("downloadBtn");
 btn.href = pdf;
 btn.target = "_blank";
