@@ -49,7 +49,7 @@ h1{
         
 <body>        
         
-<!-- ✅ DEFAULT CONTENT (Google Bot காக 🔥) -->
+<!-- ✅ DEFAULT CONTENT -->
 <h1 id="heading">TN State Board Question Paper Download</h1>        
         
 <p id="descText">Get the latest school study materials and previous year question papers for class 6 to 12.</p>        
@@ -119,9 +119,15 @@ try{
     document.getElementById("desc").setAttribute("content", dText);        
     document.getElementById("descText").innerText = dText;        
         
-    // ✅ EXTRA SEO CONTENT        
-    document.getElementById("extraText").innerText = 
-    "This " + subject + " question paper is useful for class " + classId + " students. Download and prepare for exams easily.";        
+    // ✅ 🔥 CUSTOM DESCRIPTION FROM FIRESTORE        
+    const customDesc = data.description || "";        
+        
+    if(customDesc){        
+        document.getElementById("extraText").innerText = customDesc;        
+    }else{        
+        document.getElementById("extraText").innerText = 
+        "This " + subject + " question paper is useful for class " + classId + " students. Download and prepare for exams easily.";        
+    }        
         
     // ✅ CANONICAL        
     document.getElementById("canonical").href = window.location.origin + window.location.pathname + "?class=" + classId + "&subject=" + subject + "&slug=" + slugId;        
