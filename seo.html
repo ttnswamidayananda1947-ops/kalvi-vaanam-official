@@ -9,7 +9,6 @@
 <meta name="description" id="desc">
 <meta name="robots" content="index, follow">
 
-<!-- ✅ SEO BOOST -->
 <link rel="canonical" id="canonical">
 
 <style>
@@ -39,16 +38,14 @@ margin-top:15px;
 
 <body>
 
-<h1 id="heading"></h1>
+<h1 id="heading">Loading...</h1>
 
 <p id="descText"></p>
-
-<!-- ✅ EXTRA SEO CONTENT -->
 <p id="extraText"></p>
 
 <br>
 
-<a id="downloadBtn" class="download-btn">Download PDF</a>
+<a id="downloadBtn" class="download-btn">Loading...</a>
 
 <script type="module">
 
@@ -58,11 +55,7 @@ import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10
 const firebaseConfig = {
   apiKey: "AIzaSyDADvn4P8g_Dk6fraPNk56Ansrfx5ezgJU",
   authDomain: "kalvi-vaanam-db.firebaseapp.com",
-  databaseURL: "https://kalvi-vaanam-db-default-rtdb.firebaseio.com",
   projectId: "kalvi-vaanam-db",
-  storageBucket: "kalvi-vaanam-db.firebasestorage.app",
-  messagingSenderId: "948342709583",
-  appId: "1:948342709583:web:81a107e933185a256ab93a"
 };
 
 const app = initializeApp(firebaseConfig);
@@ -75,15 +68,16 @@ const classId = params.get("class");
 const subject = params.get("subject");
 const id = params.get("id");
 
-// ✅ LOAD FUNCTION
 async function load(){
 
+// ❗ FIX: hard error remove
 if(!classId || !subject || !id){
-document.body.innerHTML = "Invalid URL";
+document.getElementById("heading").innerText = "Invalid Link ❌";
 return;
 }
 
-// ✅ FIRESTORE FETCH
+try{
+
 const ref = doc(db,
 "classes", classId,
 "subjects", subject,
@@ -93,45 +87,52 @@ const ref = doc(db,
 const snap = await getDoc(ref);
 
 if(!snap.exists()){
-document.body.innerHTML = "Not Found";
+document.getElementById("heading").innerText = "PDF Not Found ❌";
 return;
 }
 
 const data = snap.data();
 
-// ✅ PDF LINK
-const pdf = data.pdfUrl || data.link;
+// ✅ IMPORTANT FIX
+const pdf = data.link || data.pdfUrl;
 
-// ✅ SEO TITLE
+if(!pdf){
+document.getElementById("heading").innerText = "PDF Link Missing ❌";
+return;
+}
+
+// ✅ TITLE
 const title = data.name + " | Download PDF | Kalvi Vaanam";
 document.title = title;
 
 // ✅ HEADING
 document.getElementById("heading").innerText = data.name;
 
-// ✅ META DESCRIPTION
+// ✅ DESCRIPTION
 const descText = data.name + 
 " PDF Download. " + classId + "th " + subject + 
-" Question Papers Tamil Nadu Board. Free Study Materials, Guide, Notes available.";
+" Question Papers Tamil Nadu Board.";
 
 document.getElementById("desc").setAttribute("content", descText);
 document.getElementById("descText").innerText = descText;
 
-// ✅ EXTRA CONTENT (Googleக்கு முக்கியம் 🔥)
-const extra = 
-"This " + subject + " question paper is useful for students studying in class " + classId + 
-". You can download this PDF for free and use it for exam preparation. " +
-"Kalvi Vaanam provides high quality study materials, previous year question papers, and guides.";
+// ✅ EXTRA
+document.getElementById("extraText").innerText =
+"This PDF is useful for class " + classId + " " + subject + " students.";
 
-document.getElementById("extraText").innerText = extra;
-
-// ✅ CANONICAL URL
+// ✅ CANONICAL
 document.getElementById("canonical").href = window.location.href;
 
-// ✅ DOWNLOAD BUTTON
+// ✅ BUTTON (MAIN FIX 🔥)
 const btn = document.getElementById("downloadBtn");
 btn.href = pdf;
 btn.target = "_blank";
+btn.innerText = "Download PDF";
+
+}catch(err){
+console.log(err);
+document.getElementById("heading").innerText = "Error loading data ❌";
+}
 
 }
 
