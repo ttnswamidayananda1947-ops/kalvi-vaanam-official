@@ -9,6 +9,32 @@
 <meta name="description" id="desc">
 <meta name="robots" content="index, follow">
 
+<!-- ✅ SEO BOOST -->
+<link rel="canonical" id="canonical">
+
+<style>
+body{
+font-family:Arial;
+padding:20px;
+line-height:1.6;
+}
+
+h1{
+color:#0d47a1;
+}
+
+.download-btn{
+display:inline-block;
+background:#0d47a1;
+color:white;
+padding:10px 20px;
+text-decoration:none;
+border-radius:6px;
+font-weight:bold;
+margin-top:15px;
+}
+</style>
+
 </head>
 
 <body>
@@ -17,17 +43,12 @@
 
 <p id="descText"></p>
 
-<br><br>
+<!-- ✅ EXTRA SEO CONTENT -->
+<p id="extraText"></p>
 
-<a id="downloadBtn" style="
-display:inline-block;
-background:#0d47a1;
-color:white;
-padding:10px 20px;
-text-decoration:none;
-border-radius:6px;
-font-weight:bold;
-">Download PDF</a>
+<br>
+
+<a id="downloadBtn" class="download-btn">Download PDF</a>
 
 <script type="module">
 
@@ -54,16 +75,15 @@ const classId = params.get("class");
 const subject = params.get("subject");
 const id = params.get("id");
 
-// ✅ MAIN LOAD
+// ✅ LOAD FUNCTION
 async function load(){
 
-// ❗ பாதுகாப்பு check
 if(!classId || !subject || !id){
 document.body.innerHTML = "Invalid URL";
 return;
 }
 
-// ✅ Firestore fetch
+// ✅ FIRESTORE FETCH
 const ref = doc(db,
 "classes", classId,
 "subjects", subject,
@@ -79,22 +99,34 @@ return;
 
 const data = snap.data();
 
-// ✅ PDF LINK FIX (link or pdfUrl)
+// ✅ PDF LINK
 const pdf = data.pdfUrl || data.link;
 
 // ✅ SEO TITLE
-document.title = data.name + " | Download PDF | Kalvi Vaanam";
+const title = data.name + " | Download PDF | Kalvi Vaanam";
+document.title = title;
 
 // ✅ HEADING
 document.getElementById("heading").innerText = data.name;
 
-// ✅ DESCRIPTION (Google முக்கியம் 🔥)
+// ✅ META DESCRIPTION
 const descText = data.name + 
 " PDF Download. " + classId + "th " + subject + 
-" Question Papers Tamil Nadu Board. Free Study Material.";
+" Question Papers Tamil Nadu Board. Free Study Materials, Guide, Notes available.";
 
 document.getElementById("desc").setAttribute("content", descText);
 document.getElementById("descText").innerText = descText;
+
+// ✅ EXTRA CONTENT (Googleக்கு முக்கியம் 🔥)
+const extra = 
+"This " + subject + " question paper is useful for students studying in class " + classId + 
+". You can download this PDF for free and use it for exam preparation. " +
+"Kalvi Vaanam provides high quality study materials, previous year question papers, and guides.";
+
+document.getElementById("extraText").innerText = extra;
+
+// ✅ CANONICAL URL
+document.getElementById("canonical").href = window.location.href;
 
 // ✅ DOWNLOAD BUTTON
 const btn = document.getElementById("downloadBtn");
