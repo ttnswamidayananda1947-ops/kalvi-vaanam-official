@@ -85,6 +85,13 @@ const db = firebase.firestore();
 
 let editId = null;
 
+// 🔥 SLUG GENERATOR
+function createSlug(text){
+return text.toLowerCase()
+.replace(/[^a-z0-9 ]/g,"")
+.replace(/\s+/g,"-");
+}
+
 function googleLogin(){
     const provider = new firebase.auth.GoogleAuthProvider();
     auth.signInWithPopup(provider);
@@ -114,6 +121,13 @@ if(!classVal || !subjectVal || !name || !link){
     return;
 }
 
+// 🔥 AUTO CREATE
+const slug = createSlug(name);
+
+const seoTitle = name + " | Download PDF | Kalvi Vaanam";
+
+const seoDesc = name + " PDF Download. " + classVal + "th " + subjectVal + " question papers Tamil Nadu board.";
+
 const ref = db.collection("classes")
               .doc(classVal)
               .collection("subjects")
@@ -121,12 +135,26 @@ const ref = db.collection("classes")
               .collection("pdfs");
 
 if(editId){
-    ref.doc(editId).update({name,link}).then(()=>{
+    ref.doc(editId).update({
+        name,
+        link,
+        slug,
+        seoTitle,
+        seoDesc,
+        updatedAt:new Date()
+    }).then(()=>{
         editId=null;
         showSuccess();
     });
 }else{
-    ref.add({name,link,createdAt:new Date()}).then(()=>{
+    ref.add({
+        name,
+        link,
+        slug,
+        seoTitle,
+        seoDesc,
+        createdAt:new Date()
+    }).then(()=>{
         showSuccess();
     });
 }
@@ -162,6 +190,7 @@ db.collection("classes")
         viewArea.innerHTML += `
         <div>
           <b>${data.name}</b><br>
+          🔗 slug: ${data.slug}<br>
           <a href="${data.link}" target="_blank">Open PDF</a><br>
           <button class="edit-btn" onclick="editPDF('${doc.id}','${classVal}','${subjectVal}','${data.name}','${data.link}')">✏ Edit</button>
           <button class="delete-btn" onclick="deletePDF('${doc.id}','${classVal}','${subjectVal}')">🗑 Delete</button>
