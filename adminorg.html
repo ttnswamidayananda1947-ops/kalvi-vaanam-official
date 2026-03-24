@@ -25,7 +25,7 @@ button{width:100%;padding:10px;background:#0d47a1;color:white;border:none;cursor
 <div class="header">Kalvi Vaanam Admin Panel</div>
 
 <div class="container" id="loginBox">
-    <button class="google-btn" onclick="googleLogin()">Sign in with Google</button>
+<button class="google-btn" onclick="googleLogin()">Sign in with Google</button>
 </div>
 
 <div class="container dashboard" id="dashboard">
@@ -46,10 +46,8 @@ button{width:100%;padding:10px;background:#0d47a1;color:white;border:none;cursor
 <option>computerscience</option>
 </select>
 
-<input type="text" id="pdfName" placeholder="PDF Name (தமிழ் / English ok)">
+<input type="text" id="pdfName" placeholder="PDF Name">
 <input type="text" id="pdfLink" placeholder="PDF Link">
-
-<!-- 🔥 NEW SLUG BOX -->
 <input type="text" id="slugInput" placeholder="Slug (example: 11th-tamil-question-paper-2024)">
 
 <button onclick="savePDF()">Save PDF</button>
@@ -76,9 +74,9 @@ button{width:100%;padding:10px;background:#0d47a1;color:white;border:none;cursor
 <script>
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDADvn4P8g_Dk6fraPNk56Ansrfx5ezgJU",
-  authDomain: "kalvi-vaanam-db.firebaseapp.com",
-  projectId: "kalvi-vaanam-db",
+apiKey: "AIzaSyDADvn4P8g_Dk6fraPNk56Ansrfx5ezgJU",
+authDomain: "kalvi-vaanam-db.firebaseapp.com",
+projectId: "kalvi-vaanam-db",
 };
 
 firebase.initializeApp(firebaseConfig);
@@ -88,7 +86,6 @@ const db = firebase.firestore();
 
 let editId = null;
 
-// 🔥 fallback slug generator (only if empty)
 function createSlug(text){
 return text.toLowerCase()
 .replace(/[^a-z0-9 ]/g,"")
@@ -96,18 +93,18 @@ return text.toLowerCase()
 }
 
 function googleLogin(){
-    const provider = new firebase.auth.GoogleAuthProvider();
-    auth.signInWithPopup(provider);
+const provider = new firebase.auth.GoogleAuthProvider();
+auth.signInWithPopup(provider);
 }
 
 auth.onAuthStateChanged(user=>{
-    if(user && user.email === "ttnswamidayananda1947@gmail.com"){
-        loginBox.style.display="none";
-        dashboard.style.display="block";
-    }else{
-        loginBox.style.display="block";
-        dashboard.style.display="none";
-    }
+if(user && user.email === "ttnswamidayananda1947@gmail.com"){
+loginBox.style.display="none";
+dashboard.style.display="block";
+}else{
+loginBox.style.display="block";
+dashboard.style.display="none";
+}
 });
 
 function logout(){ auth.signOut(); }
@@ -119,51 +116,31 @@ const subjectVal = subjectSelect.value;
 const name = pdfName.value;
 const link = pdfLink.value;
 
-// 🔥 slug manual OR auto
 let slug = slugInput.value.trim();
 if(!slug){
-    slug = createSlug(name);
+slug = createSlug(name);
 }
 
 if(!classVal || !subjectVal || !name || !link){
-    alert("Fill all fields");
-    return;
+alert("Fill all fields");
+return;
 }
-
-const seoTitle = name + " | Download PDF | Kalvi Vaanam";
-
-const seoDesc = name + " PDF Download. " + classVal + "th " + subjectVal + " question papers Tamil Nadu board.";
 
 const ref = db.collection("classes")
-              .doc(classVal)
-              .collection("subjects")
-              .doc(subjectVal)
-              .collection("pdfs");
+.doc(classVal)
+.collection("subjects")
+.doc(subjectVal)
+.collection("pdfs");
 
-if(editId){
-    ref.doc(editId).update({
-        name,
-        link,
-        slug,
-        seoTitle,
-        seoDesc,
-        updatedAt:new Date()
-    }).then(()=>{
-        editId=null;
-        showSuccess();
-    });
-}else{
-    ref.add({
-        name,
-        link,
-        slug,
-        seoTitle,
-        seoDesc,
-        createdAt:new Date()
-    }).then(()=>{
-        showSuccess();
-    });
-}
+// ✅ MAIN CHANGE 🔥
+ref.doc(slug).set({
+name,
+link,
+slug,
+createdAt:new Date()
+}).then(()=>{
+showSuccess();
+});
 
 pdfName.value="";
 pdfLink.value="";
@@ -171,8 +148,8 @@ slugInput.value="";
 }
 
 function showSuccess(){
-    successMsg.style.display="block";
-    setTimeout(()=>{successMsg.style.display="none";},2000);
+successMsg.style.display="block";
+setTimeout(()=>{successMsg.style.display="none";},2000);
 }
 
 function viewPDFs(){
@@ -182,57 +159,28 @@ const subjectVal = viewSubject.value;
 viewArea.innerHTML="Loading...";
 
 db.collection("classes")
-  .doc(classVal)
-  .collection("subjects")
-  .doc(subjectVal)
-  .collection("pdfs")
-  .get()
-  .then(snapshot=>{
+.doc(classVal)
+.collection("subjects")
+.doc(subjectVal)
+.collection("pdfs")
+.get()
+.then(snapshot=>{
 
-    viewArea.innerHTML="";
-    if(snapshot.empty){ viewArea.innerHTML="No PDFs"; return; }
+viewArea.innerHTML="";
+if(snapshot.empty){ viewArea.innerHTML="No PDFs"; return; }
 
-    snapshot.forEach(doc=>{
-        const data = doc.data();
-        viewArea.innerHTML += `
-        <div>
-          <b>${data.name}</b><br>
-          🔗 slug: ${data.slug}<br>
-          <a href="${data.link}" target="_blank">Open PDF</a><br>
-          <button class="edit-btn" onclick="editPDF('${doc.id}','${classVal}','${subjectVal}','${data.name}','${data.link}','${data.slug}')">✏ Edit</button>
-          <button class="delete-btn" onclick="deletePDF('${doc.id}','${classVal}','${subjectVal}')">🗑 Delete</button>
-          <hr>
-        </div>`;
-    });
+snapshot.forEach(doc=>{
+const data = doc.data();
+viewArea.innerHTML += `
+<div>
+<b>${data.name}</b><br>
+🔗 slug: ${doc.id}<br>
+<a href="${data.link}" target="_blank">Open PDF</a><br>
+<hr>
+</div>`;
+});
 
-  });
-}
-
-function editPDF(id,classVal,subjectVal,name,link,slug){
-    editId=id;
-    classSelect.value=classVal;
-    subjectSelect.value=subjectVal;
-    pdfName.value=name;
-    pdfLink.value=link;
-    slugInput.value=slug;
-    window.scrollTo(0,0);
-}
-
-function deletePDF(id,classVal,subjectVal){
-
-if(!confirm("Are you sure you want to delete this PDF?")) return;
-
-db.collection("classes")
-  .doc(classVal)
-  .collection("subjects")
-  .doc(subjectVal)
-  .collection("pdfs")
-  .doc(id)
-  .delete()
-  .then(()=>{
-      alert("PDF Deleted Successfully ✅");
-      viewPDFs();
-  });
+});
 }
 
 viewClass.innerHTML = classSelect.innerHTML;
