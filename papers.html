@@ -214,8 +214,8 @@ function renderItems(){
         const div=document.createElement("div");      
         div.className="item-box";      
     
-        // 🔥 slug fallback fix
-        const slug = data.slug || data.name.toLowerCase().replace(/[^a-z0-9 ]/g,"").replace(/\s+/g,"-");
+        // 🔥 Slug ஐ எடுக்கும் முறை
+        const slug = data.slug || data.id; 
     
         div.innerHTML=`      
             <div>      
@@ -223,7 +223,7 @@ function renderItems(){
                 <span class="title-text">${data.name}</span>      
             </div>      
             <br>      
-            <a class="download-link" href="seo.html?slug=${slug}">Download</a>      
+            <a class="download-link" href="seo.html?class=${classId}&subject=${subject}&slug=${slug}">Download</a>      
         `;      
     
         contentDiv.appendChild(div);      
