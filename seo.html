@@ -4,33 +4,43 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title id="title">Loading...</title>
+<title id="title">Loading... | Kalvi Vaanam</title>
 
-<meta name="description" id="desc">
+<meta name="description" id="desc" content="Loading question paper details...">
 <meta name="robots" content="index, follow">
 
-<link rel="canonical" id="canonical">
+<link rel="canonical" id="canonical" href="">
 
 <style>
 body{
-font-family:Arial;
-padding:20px;
-line-height:1.6;
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    line-height: 1.6;
+    max-width: 800px;
+    margin: auto;
+    text-align: center;
 }
 
 h1{
-color:#0d47a1;
+    color: #0d47a1;
 }
 
 .download-btn{
-display:inline-block;
-background:#0d47a1;
-color:white;
-padding:10px 20px;
-text-decoration:none;
-border-radius:6px;
-font-weight:bold;
-margin-top:15px;
+    display: inline-block;
+    background: #0d47a1;
+    color: white;
+    padding: 12px 25px;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: bold;
+    margin-top: 20px;
+    font-size: 18px;
+}
+
+#descText, #extraText {
+    color: #333;
+    font-size: 16px;
+    margin-top: 10px;
 }
 </style>
 
@@ -56,88 +66,72 @@ const firebaseConfig = {
   apiKey: "AIzaSyDADvn4P8g_Dk6fraPNk56Ansrfx5ezgJU",
   authDomain: "kalvi-vaanam-db.firebaseapp.com",
   projectId: "kalvi-vaanam-db",
+  storageBucket: "kalvi-vaanam-db.firebasestorage.app",
+  messagingSenderId: "948342709583",
+  appId: "1:948342709583:web:81a107e933185a256ab93a"
 };
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// ✅ URL PARAMS
+// ✅ URL PARAMS - Slug-ஐ ID-யாக எடுக்கிறோம்
 const params = new URLSearchParams(window.location.search);
-
 const classId = params.get("class");
 const subject = params.get("subject");
-const id = params.get("id");
+const slugId = params.get("slug"); // ❗ இங்க 'id'க்கு பதிலா 'slug'னு மாத்தியிருக்கேன்
 
 async function load(){
 
-// ❗ FIX: hard error remove
-if(!classId || !subject || !id){
-document.getElementById("heading").innerText = "Invalid Link ❌";
-return;
+if(!classId || !subject || !slugId){
+    document.getElementById("heading").innerText = "Invalid Link ❌";
+    return;
 }
 
 try{
+    // Firestore-ல் Slug Name-ஐ டாக்குமெண்ட் ஐடியாக வைத்து தேடுகிறோம்
+    const ref = doc(db, "classes", classId, "subjects", subject, "pdfs", slugId);
+    const snap = await getDoc(ref);
 
-const ref = doc(db,
-"classes", classId,
-"subjects", subject,
-"pdfs", id
-);
+    if(!snap.exists()){
+        document.getElementById("heading").innerText = "PDF Not Found ❌";
+        return;
+    }
 
-const snap = await getDoc(ref);
+    const data = snap.data();
+    const pdf = data.link || data.pdfUrl;
 
-if(!snap.exists()){
-document.getElementById("heading").innerText = "PDF Not Found ❌";
-return;
+    if(!pdf){
+        document.getElementById("heading").innerText = "PDF Link Missing ❌";
+        return;
+    }
+
+    // ✅ TITLE & HEADING Update
+    const pageTitle = data.name + " | Download PDF | Kalvi Vaanam";
+    document.title = pageTitle;
+    document.getElementById("heading").innerText = data.name;
+
+    // ✅ DESCRIPTION
+    const dText = data.name + " PDF Download. " + classId + "th " + subject + " Question Papers Tamil Nadu Board.";
+    document.getElementById("desc").setAttribute("content", dText);
+    document.getElementById("descText").innerText = dText;
+    document.getElementById("extraText").innerText = "This PDF is useful for class " + classId + " " + subject + " students.";
+
+    // ✅ CANONICAL
+    document.getElementById("canonical").href = window.location.href;
+
+    // ✅ DOWNLOAD BUTTON
+    const btn = document.getElementById("downloadBtn");
+    btn.href = pdf;
+    btn.target = "_blank";
+    btn.innerText = "Download PDF Now";
+
+} catch(err){
+    console.log(err);
+    document.getElementById("heading").innerText = "Error loading data ❌";
 }
-
-const data = snap.data();
-
-// ✅ IMPORTANT FIX
-const pdf = data.link || data.pdfUrl;
-
-if(!pdf){
-document.getElementById("heading").innerText = "PDF Link Missing ❌";
-return;
-}
-
-// ✅ TITLE
-const title = data.name + " | Download PDF | Kalvi Vaanam";
-document.title = title;
-
-// ✅ HEADING
-document.getElementById("heading").innerText = data.name;
-
-// ✅ DESCRIPTION
-const descText = data.name + 
-" PDF Download. " + classId + "th " + subject + 
-" Question Papers Tamil Nadu Board.";
-
-document.getElementById("desc").setAttribute("content", descText);
-document.getElementById("descText").innerText = descText;
-
-// ✅ EXTRA
-document.getElementById("extraText").innerText =
-"This PDF is useful for class " + classId + " " + subject + " students.";
-
-// ✅ CANONICAL
-document.getElementById("canonical").href = window.location.href;
-
-// ✅ BUTTON (MAIN FIX 🔥)
-const btn = document.getElementById("downloadBtn");
-btn.href = pdf;
-btn.target = "_blank";
-btn.innerText = "Download PDF";
-
-}catch(err){
-console.log(err);
-document.getElementById("heading").innerText = "Error loading data ❌";
-}
-
 }
 
 load();
-
 </script>
 
 </body>
