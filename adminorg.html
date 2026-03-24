@@ -46,8 +46,11 @@ button{width:100%;padding:10px;background:#0d47a1;color:white;border:none;cursor
 <option>computerscience</option>
 </select>
 
-<input type="text" id="pdfName" placeholder="PDF Name">
+<input type="text" id="pdfName" placeholder="PDF Name (தமிழ் / English ok)">
 <input type="text" id="pdfLink" placeholder="PDF Link">
+
+<!-- 🔥 NEW SLUG BOX -->
+<input type="text" id="slugInput" placeholder="Slug (example: 11th-tamil-question-paper-2024)">
 
 <button onclick="savePDF()">Save PDF</button>
 
@@ -85,7 +88,7 @@ const db = firebase.firestore();
 
 let editId = null;
 
-// 🔥 SLUG GENERATOR
+// 🔥 fallback slug generator (only if empty)
 function createSlug(text){
 return text.toLowerCase()
 .replace(/[^a-z0-9 ]/g,"")
@@ -116,13 +119,16 @@ const subjectVal = subjectSelect.value;
 const name = pdfName.value;
 const link = pdfLink.value;
 
+// 🔥 slug manual OR auto
+let slug = slugInput.value.trim();
+if(!slug){
+    slug = createSlug(name);
+}
+
 if(!classVal || !subjectVal || !name || !link){
     alert("Fill all fields");
     return;
 }
-
-// 🔥 AUTO CREATE
-const slug = createSlug(name);
 
 const seoTitle = name + " | Download PDF | Kalvi Vaanam";
 
@@ -161,6 +167,7 @@ if(editId){
 
 pdfName.value="";
 pdfLink.value="";
+slugInput.value="";
 }
 
 function showSuccess(){
@@ -192,7 +199,7 @@ db.collection("classes")
           <b>${data.name}</b><br>
           🔗 slug: ${data.slug}<br>
           <a href="${data.link}" target="_blank">Open PDF</a><br>
-          <button class="edit-btn" onclick="editPDF('${doc.id}','${classVal}','${subjectVal}','${data.name}','${data.link}')">✏ Edit</button>
+          <button class="edit-btn" onclick="editPDF('${doc.id}','${classVal}','${subjectVal}','${data.name}','${data.link}','${data.slug}')">✏ Edit</button>
           <button class="delete-btn" onclick="deletePDF('${doc.id}','${classVal}','${subjectVal}')">🗑 Delete</button>
           <hr>
         </div>`;
@@ -201,12 +208,13 @@ db.collection("classes")
   });
 }
 
-function editPDF(id,classVal,subjectVal,name,link){
+function editPDF(id,classVal,subjectVal,name,link,slug){
     editId=id;
     classSelect.value=classVal;
     subjectSelect.value=subjectVal;
     pdfName.value=name;
     pdfLink.value=link;
+    slugInput.value=slug;
     window.scrollTo(0,0);
 }
 
