@@ -119,7 +119,6 @@ body {
     <a href="terms.html">Terms & Conditions</a>  
 </div>  
   
-<!-- ⭐ SUBJECTS AUTO LOAD -->  
 <div class="subject-box" id="subjectContainer"></div>  
   
 <div class="footer">  
@@ -137,7 +136,7 @@ const params = new URLSearchParams(window.location.search);
 const classId = params.get("class");  
   
 // Title  
-document.title = classId + "th Question Papers – Kalvi Vaanam";  
+document.title = classId + "th Subjects – Kalvi Vaanam";  
 document.getElementById("classTitle").innerText =  
 "Kalvi Vaanam - " + classId + "th Class";  
   
@@ -154,9 +153,6 @@ if(classId == "11" || classId == "12"){
         {name:"வேதியியல் (Chemistry)", key:"chemistry"},  
         {name:"கணினி அறிவியல்", key:"computerscience"},  
         {name:"கணினி பயன்பாடு", key:"computerapplication"}  
-  
-        // Future add pannalam  
-        // {name:"பயாலஜி", key:"biology"},  
     ];  
 }  
 else{  
@@ -176,10 +172,11 @@ const container = document.getElementById("subjectContainer");
 subjects.forEach(sub => {  
     const a = document.createElement("a");  
     a.innerText = sub.name;  
-    a.href = "papers.html?class=" + classId + "&subject=" + sub.key;  
+    // 🔥 இங்க தான் மாற்றம் செஞ்சிருக்கேன்: papers.html-க்கு பதில் material.html-க்கு போகும்
+    a.href = "material.html?class=" + classId + "&subject=" + sub.key;  
     container.appendChild(a);  
 });  
 </script>  
   
 </body>  
-</html>
+  </html>
