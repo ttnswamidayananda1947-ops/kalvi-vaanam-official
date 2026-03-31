@@ -9,7 +9,7 @@
 body{margin:0;font-family:Arial, sans-serif;background:#f5f5f5;}
 .header{background:#0d47a1;color:white;padding:15px;text-align:center;font-size:20px;font-weight:bold;}
 .container{width:95%;max-width:500px;margin:30px auto;padding:20px;background:white;border-radius:8px;box-shadow:0 0 10px rgba(0,0,0,0.1);}
-h3{border-bottom: 2px solid #0d47a1; padding-bottom: 5px; color: #0d47a1;}
+h3{border-bottom: 2px solid #0d47a1; padding-bottom: 5px; color: #0d47a1; margin-top:20px;}
 input,select,textarea{width:100%;padding:10px;margin:10px 0;box-sizing:border-box; border: 1px solid #ccc; border-radius: 4px;}
 button{width:100%;padding:12px;background:#0d47a1;color:white;border:none;cursor:pointer;margin-top:5px;border-radius:5px; font-weight: bold;}
 .google-btn{background:#db4437;}
@@ -56,7 +56,7 @@ button{width:100%;padding:12px;background:#0d47a1;color:white;border:none;cursor
     <input type="text" id="pdfName" placeholder="PDF Name">
     <input type="text" id="pdfLink" placeholder="PDF Link">
     <textarea id="pdfDesc" placeholder="Description (Tamil + English mix)"></textarea>
-    <input type="text" id="slugInput" placeholder="Slug (Optional)"></input>
+    <input type="text" id="slugInput" placeholder="Slug (Optional)">
 
     <button onclick="savePDF()">Save PDF ✅</button>
 
@@ -65,7 +65,7 @@ button{width:100%;padding:12px;background:#0d47a1;color:white;border:none;cursor
     <div class="article-section">
         <h3 style="color: #2e7d32; border-color: #2e7d32;">Add Article (SEO)</h3>
         <input type="text" id="artTitle" placeholder="Article Title">
-        <input type="text" id="artCategory" placeholder="Category (e.g. Tips, News)">
+        <input type="text" id="artCategory" placeholder="Category">
         <textarea id="artContent" style="height: 120px;" placeholder="Full Article Content"></textarea>
         <input type="text" id="artSlug" placeholder="Article Slug">
         <button style="background: #2e7d32;" onclick="saveArticle()">Save Article ✍️</button>
@@ -107,9 +107,7 @@ const auth = firebase.auth();
 const db = firebase.firestore();
 
 function createSlug(text){
-    return text.toLowerCase()
-    .replace(/[^a-z0-9 ]/g,"")
-    .replace(/\s+/g,"-");
+    return text.toLowerCase().replace(/[^a-z0-9 ]/g,"").replace(/\s+/g,"-");
 }
 
 function googleLogin(){
@@ -129,7 +127,6 @@ auth.onAuthStateChanged(user=>{
 
 function logout(){ auth.signOut(); }
 
-// --- SAVE PDF FUNCTION ---
 function savePDF(){
     const classVal = document.getElementById("classSelect").value;
     const subjectVal = document.getElementById("subjectSelect").value;
@@ -144,41 +141,28 @@ function savePDF(){
 
     db.collection("classes").doc(classVal).collection("subjects").doc(subjectVal).collection("pdfs")
     .doc(slug).set({
-        name: name,
-        link: link,
-        description: desc,
-        type: typeVal, // 'question' or 'study'
-        slug: slug,
+        name: name, link: link, description: desc, type: typeVal, slug: slug,
         createdAt: firebase.firestore.FieldValue.serverTimestamp()
-    }).then(()=>{ 
-        showSuccess(); 
-        clearPDFFields();
-    }).catch(err => alert("Error: " + err));
+    }).then(()=>{ showSuccess(); clearPDFFields(); });
 }
 
 function clearPDFFields(){
-    document.getElementById("pdfName").value=""; 
-    document.getElementById("pdfLink").value=""; 
-    document.getElementById("pdfDesc").value=""; 
-    document.getElementById("slugInput").value="";
+    document.getElementById("pdfName").value=""; document.getElementById("pdfLink").value=""; 
+    document.getElementById("pdfDesc").value=""; document.getElementById("slugInput").value="";
 }
 
-// --- SAVE ARTICLE FUNCTION (Separate Root Collection) ---
 function saveArticle(){
     const title = document.getElementById("artTitle").value;
     const category = document.getElementById("artCategory").value;
     const content = document.getElementById("artContent").value;
     let slug = document.getElementById("artSlug").value.trim();
     
-    if(!slug) slug = createSlug(title);
     if(!title || !content){ alert("Title and Content are required!"); return; }
+    if(!slug) slug = createSlug(title);
 
-    // This creates a separate collection named 'articles'
+    // ⭐ ஆர்டிகிள் தனி செக்ஷனில் சேமிக்கப்படும்
     db.collection("articles").doc(slug).set({
-        title: title,
-        category: category,
-        content: content,
-        slug: slug,
+        title: title, category: category, content: content, slug: slug,
         createdAt: firebase.firestore.FieldValue.serverTimestamp()
     }).then(() => {
         showSuccess();
@@ -186,7 +170,7 @@ function saveArticle(){
         document.getElementById("artCategory").value = "";
         document.getElementById("artContent").value = "";
         document.getElementById("artSlug").value = "";
-    }).catch(err => alert("Article Error: " + err));
+    }).catch(err => alert("Article Error: " + err.message));
 }
 
 function showSuccess(){
@@ -200,14 +184,13 @@ function viewPDFs(){
     const subjectVal = document.getElementById("viewSubject").value;
     const area = document.getElementById("viewArea");
     area.innerHTML="Loading...";
-
     db.collection("classes").doc(classVal).collection("subjects").doc(subjectVal).collection("pdfs").get()
     .then(snapshot=>{
         area.innerHTML="";
         if(snapshot.empty){ area.innerHTML="No PDFs found."; return; }
         snapshot.forEach(doc=>{
             const data = doc.data();
-            area.innerHTML += `<div><b>${data.name}</b> (${data.type})<br>Slug: ${doc.id}<br><hr></div>`;
+            area.innerHTML += `<div><b>${data.name}</b> (${data.type})<br>Slug: ${doc.id}<hr></div>`;
         });
     });
 }
@@ -217,7 +200,6 @@ function loadDeleteList(){
     const subjectVal = document.getElementById("deleteSubject").value;
     const pdfSelect = document.getElementById("deletePdf");
     pdfSelect.innerHTML="<option>Loading...</option>";
-
     db.collection("classes").doc(classVal).collection("subjects").doc(subjectVal).collection("pdfs").get()
     .then(snapshot=>{
         pdfSelect.innerHTML="";
@@ -233,19 +215,16 @@ function deletePDF(){
     const classVal = document.getElementById("deleteClass").value;
     const subjectVal = document.getElementById("deleteSubject").value;
     const slug = document.getElementById("deletePdf").value;
-    if(!slug || slug === "Loading..."){ alert("Select a PDF first"); return; }
-    if(!confirm("Are you sure you want to delete?")) return;
-
+    if(!slug || slug === "Loading..."){ alert("Select a PDF"); return; }
+    if(!confirm("Delete?")) return;
     db.collection("classes").doc(classVal).collection("subjects").doc(subjectVal).collection("pdfs").doc(slug).delete()
     .then(()=>{ alert("Deleted! ✅"); loadDeleteList(); });
 }
 
-// Init Dropdowns
 document.getElementById("viewClass").innerHTML = document.getElementById("classSelect").innerHTML;
 document.getElementById("viewSubject").innerHTML = document.getElementById("subjectSelect").innerHTML;
 document.getElementById("deleteClass").innerHTML = document.getElementById("classSelect").innerHTML;
 document.getElementById("deleteSubject").innerHTML = document.getElementById("subjectSelect").innerHTML;
-
 document.getElementById("deleteClass").onchange = loadDeleteList;
 document.getElementById("deleteSubject").onchange = loadDeleteList;
 
