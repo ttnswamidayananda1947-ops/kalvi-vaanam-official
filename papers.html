@@ -148,7 +148,9 @@ body {
 <a href="terms.html">Terms & Conditions</a>      
 </div>      
     
-<div class="content-area" id="content"></div>      
+<div class="content-area" id="content">
+    <p id="loadingMsg" style="text-align:center;">Loading PDFs...</p>
+</div>      
 <button class="more-btn" id="toggleBtn" style="display:none;">More</button>      
     
 <div class="footer">      
@@ -157,7 +159,7 @@ body {
     
 <script type="module">      
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";      
-import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";      
+import { getFirestore, collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";      
     
 const firebaseConfig = {      
   apiKey: "AIzaSyDADvn4P8g_Dk6fraPNk56Ansrfx5ezgJU",      
@@ -173,9 +175,10 @@ const db = getFirestore(app);
     
 const params = new URLSearchParams(window.location.search);      
 const classId = params.get("class");      
-const subject = params.get("subject");      
+const subject = params.get("subject");
+const materialType = params.get("type"); // ⭐ material.html-ல் இருந்து வரும் 'type' (question/study)
     
-document.title = classId + "th " + subject + " Question Papers";      
+document.title = classId + "th " + subject + " " + (materialType === 'study' ? 'Study Materials' : 'Question Papers');      
 document.getElementById("pageTitle").innerText =      
 "Kalvi Vaanam - " + classId + "th " + subject;      
     
@@ -183,24 +186,42 @@ let allDocs = [];
 let expanded = false;      
     
 async function loadPDFs() {      
-    const toggleBtn = document.getElementById("toggleBtn");      
+    const toggleBtn = document.getElementById("toggleBtn");
+    const contentDiv = document.getElementById("content");
     
-    const pdfRef = collection(db,"classes",classId,"subjects",subject,"pdfs");      
-    const snapshot = await getDocs(pdfRef);      
+    const pdfRef = collection(db,"classes",classId,"subjects",subject,"pdfs");
     
-    allDocs = [];      
-    snapshot.forEach(doc=>{      
-        allDocs.push({      
-            id:doc.id,      
-            ...doc.data()      
+    // ⭐ பிடிஎஃப்-களை டைப் படி வடிகட்டும் வசதி (Filter by Type)
+    let q;
+    if(materialType) {
+        q = query(pdfRef, where("type", "==", materialType));
+    } else {
+        q = pdfRef;
+    }
+
+    try {
+        const snapshot = await getDocs(q);      
+        
+        allDocs = [];      
+        snapshot.forEach(doc=>{      
+            allDocs.push({      
+                id:doc.id,      
+                ...doc.data()      
+            });      
         });      
-    });      
-    
-    renderItems();      
-    
-    if(allDocs.length>5){      
-        toggleBtn.style.display="block";      
-    }      
+        
+        if(allDocs.length === 0) {
+            contentDiv.innerHTML = "<p style='text-align:center;'>No PDFs found for this category.</p>";
+        } else {
+            renderItems();      
+            if(allDocs.length > 5){      
+                toggleBtn.style.display="block";      
+            }
+        }
+    } catch (error) {
+        console.error("Error fetching PDFs: ", error);
+        contentDiv.innerHTML = "<p style='text-align:center;'>Error loading data. Please try again.</p>";
+    }
 }      
     
 function renderItems(){      
@@ -214,7 +235,6 @@ function renderItems(){
         const div=document.createElement("div");      
         div.className="item-box";      
     
-        // 🔥 Slug ஐ எடுக்கும் முறை
         const slug = data.slug || data.id; 
     
         div.innerHTML=`      
