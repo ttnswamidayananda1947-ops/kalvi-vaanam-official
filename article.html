@@ -4,7 +4,22 @@
 <meta charset="UTF-8">    
 <meta name="viewport" content="width=device-width, initial-scale=1.0">    
 <title id="metaTitle">கட்டுரைகள் | Kalvi Vaanam</title>    
-    
+
+<meta name="description" content="Kalvi Vaanam வழங்கும் கல்வி சார்ந்த கட்டுரைகள் மற்றும் பயனுள்ள தகவல்கள். T.T.N Swami Dayananda Higher Secondary School மாணவர்களுக்கான சிறப்பு பகுதி.">
+<meta name="keywords" content="கல்வி கட்டுரைகள், கல்வி வானம், Kalvi Vaanam Articles, Education Tamil, Exam Tips Tamil, School Education">
+<meta name="author" content="Kalvi Vaanam Team">
+<meta name="robots" content="index, follow">
+
+<meta property="og:site_name" content="Kalvi Vaanam">
+<meta property="og:title" content="கட்டுரைகள் | Kalvi Vaanam">
+<meta property="og:description" content="மாணவர்களுக்கான பயனுள்ள கல்வி கட்டுரைகள் மற்றும் பாடக்குறிப்புகள் இங்கே கிடைக்கும்.">
+<meta property="og:type" content="article">
+<meta property="og:image" content="logo.png"> <meta property="og:url" content="https://www.kalvivaanam.com/articles.html">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="கட்டுரைகள் | Kalvi Vaanam">
+<meta name="twitter:description" content="கல்வி சார்ந்த சிறப்புக் கட்டுரைகள் - கல்வி வானம்.">
+
 <style>    
 body{ margin:0; font-family: Arial, sans-serif; background:#f9f9f9; color: #333; }    
     
@@ -58,10 +73,10 @@ h1{ color: #0d47a1; font-size: 26px; margin-top: 15px; line-height: 1.3; }
     
 <div class="header">    
     <div class="logo-area">    
-        <div class="logo-box"><img src="logo.png"></div>    
+        <div class="logo-box"><img src="logo.png" alt="Kalvi Vaanam Logo"></div>    
         <div class="site-name">Kalvi Vaanam</div>    
     </div>    
-    <div class="menu-btn" onclick="openMenu()">☰</div>    
+    <div class="menu-btn" onclick="openMenu()" aria-label="Open Menu">☰</div>    
 </div>    
     
 <div class="side-menu" id="menu">    
@@ -79,12 +94,14 @@ h1{ color: #0d47a1; font-size: 26px; margin-top: 15px; line-height: 1.3; }
     <div id="fullArticleView">
         <div class="back-link" onclick="showList()">← மீண்டும் பட்டியலுக்குச் செல்ல</div>
         <div class="article-card">
-            <span class="category-badge" id="artCategory">CATEGORY</span>
-            <h1 id="artHeading">தலைப்பு</h1>
-            <div class="meta-info">
-                பதிவேற்றியவர்: Kalvi Vaanam Team | தேதி: <span id="artDate">--</span>
-            </div>
-            <div id="artContent">உள்ளடக்கம்...</div>
+            <article>
+                <span class="category-badge" id="artCategory">CATEGORY</span>
+                <h1 id="artHeading">தலைப்பு</h1>
+                <div class="meta-info">
+                    பதிவேற்றியவர்: Kalvi Vaanam Team | தேதி: <span id="artDate">--</span>
+                </div>
+                <div id="artContent">உள்ளடக்கம்...</div>
+            </article>
         </div>
     </div>
 </div>    
@@ -156,7 +173,12 @@ h1{ color: #0d47a1; font-size: 26px; margin-top: 15px; line-height: 1.3; }
                 document.getElementById("artCategory").innerText = data.category || "General";
                 document.getElementById("artContent").innerText = data.content;
                 document.getElementById("artDate").innerText = data.createdAt ? data.createdAt.toDate().toLocaleDateString('ta-IN') : "--";
+                
+                // ✅ DYNAMIC META UPDATE
                 document.title = data.title + " | Kalvi Vaanam";
+                // Page description Update (Optional via JS)
+                const descMeta = document.querySelector('meta[name="description"]');
+                if(descMeta) descMeta.setAttribute("content", data.content.substring(0, 150));
             }
         } catch (err) {
             alert("Error loading content");
