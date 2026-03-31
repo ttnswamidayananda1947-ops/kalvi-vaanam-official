@@ -6,19 +6,19 @@
 <title>Kalvi Vaanam Admin</title>
 
 <style>
-body{margin:0;font-family:Arial;background:#f5f5f5;}
+body{margin:0;font-family:Arial, sans-serif;background:#f5f5f5;}
 .header{background:#0d47a1;color:white;padding:15px;text-align:center;font-size:20px;font-weight:bold;}
 .container{width:95%;max-width:500px;margin:30px auto;padding:20px;background:white;border-radius:8px;box-shadow:0 0 10px rgba(0,0,0,0.1);}
-input,select,textarea{width:100%;padding:10px;margin:10px 0;box-sizing:border-box;}
-button{width:100%;padding:10px;background:#0d47a1;color:white;border:none;cursor:pointer;margin-top:5px;border-radius:5px;}
+h3{border-bottom: 2px solid #0d47a1; padding-bottom: 5px; color: #0d47a1;}
+input,select,textarea{width:100%;padding:10px;margin:10px 0;box-sizing:border-box; border: 1px solid #ccc; border-radius: 4px;}
+button{width:100%;padding:12px;background:#0d47a1;color:white;border:none;cursor:pointer;margin-top:5px;border-radius:5px; font-weight: bold;}
 .google-btn{background:#db4437;}
-.success-msg{display:none;background:#c8e6c9;color:#1b5e20;padding:10px;margin-top:10px;text-align:center;font-weight:bold;}
+.success-msg{display:none;background:#c8e6c9;color:#1b5e20;padding:10px;margin-top:10px;text-align:center;font-weight:bold; border-radius: 5px;}
 .view-area{margin-top:15px;background:#f1f1f1;padding:10px;min-height:50px;border-radius:5px;}
 .dashboard{display:none;}
 .delete-section{margin-top:30px;border-top:2px solid #ccc;padding-top:20px;}
 .delete-btn{background:#e53935;margin-top:10px;}
-/* New Article Styling */
-.article-section{margin-top:30px; border-top: 4px solid #0d47a1; padding-top:20px; background: #e3f2fd; padding: 15px; border-radius: 8px;}
+.article-section{margin-top:30px; border-top: 4px solid #2e7d32; padding-top:20px; background: #f1f8e9; padding: 15px; border-radius: 8px;}
 </style>
 </head>
 
@@ -27,61 +27,67 @@ button{width:100%;padding:10px;background:#0d47a1;color:white;border:none;cursor
 <div class="header">Kalvi Vaanam Admin Panel</div>
 
 <div class="container" id="loginBox">
-<button class="google-btn" onclick="googleLogin()">Sign in with Google</button>
+    <button class="google-btn" onclick="googleLogin()">Sign in with Google</button>
 </div>
 
 <div class="container dashboard" id="dashboard">
 
-<h3>Add PDF</h3>
-<select id="classSelect">
-<option value="">Select Class</option>
-<option>6</option><option>7</option><option>8</option>
-<option>9</option><option>10</option><option>11</option><option>12</option>
-</select>
+    <h3>Add PDF</h3>
+    <select id="classSelect">
+        <option value="">Select Class</option>
+        <option>6</option><option>7</option><option>8</option>
+        <option>9</option><option>10</option><option>11</option><option>12</option>
+    </select>
 
-<select id="subjectSelect">
-<option value="">Select Subject</option>
-<option>tamil</option><option>english</option><option>maths</option>
-<option>science</option><option>social</option>
-<option>physics</option><option>chemistry</option>
-<option>computerscience</option>
-</select>
+    <select id="subjectSelect">
+        <option value="">Select Subject</option>
+        <option>tamil</option><option>english</option><option>maths</option>
+        <option>science</option><option>social</option>
+        <option>physics</option><option>chemistry</option>
+        <option>computerscience</option>
+    </select>
 
-<input type="text" id="pdfName" placeholder="PDF Name">
-<input type="text" id="pdfLink" placeholder="PDF Link">
-<textarea id="pdfDesc" placeholder="Description (Tamil + English mix)"></textarea>
-<input type="text" id="slugInput" placeholder="Slug (example: 11th-tamil-question-paper-2024)">
+    <select id="typeSelect">
+        <option value="">Select Material Type</option>
+        <option value="question">Question Paper</option>
+        <option value="study">Study Material</option>
+    </select>
 
-<button onclick="savePDF()">Save PDF</button>
+    <input type="text" id="pdfName" placeholder="PDF Name">
+    <input type="text" id="pdfLink" placeholder="PDF Link">
+    <textarea id="pdfDesc" placeholder="Description (Tamil + English mix)"></textarea>
+    <input type="text" id="slugInput" placeholder="Slug (Optional)"></input>
 
-<hr>
+    <button onclick="savePDF()">Save PDF ✅</button>
 
-<div class="article-section">
-    <h3>Add Article / Tutorial (For SEO)</h3>
-    <input type="text" id="artTitle" placeholder="Article Title (e.g. How to study for 10th Maths)">
-    <input type="text" id="artCategory" placeholder="Category (e.g. Exam Tips, Programming)">
-    <textarea id="artContent" style="height: 150px;" placeholder="Full Article Content (Type in Tamil or English)"></textarea>
-    <input type="text" id="artSlug" placeholder="Article Slug (e.g. 10th-maths-tips)">
-    <button style="background: #2e7d32;" onclick="saveArticle()">Save Article ✅</button>
-</div>
+    <hr>
 
-<div class="success-msg" id="successMsg">Saved Successfully ✅</div>
+    <div class="article-section">
+        <h3 style="color: #2e7d32; border-color: #2e7d32;">Add Article (SEO)</h3>
+        <input type="text" id="artTitle" placeholder="Article Title">
+        <input type="text" id="artCategory" placeholder="Category (e.g. Tips, News)">
+        <textarea id="artContent" style="height: 120px;" placeholder="Full Article Content"></textarea>
+        <input type="text" id="artSlug" placeholder="Article Slug">
+        <button style="background: #2e7d32;" onclick="saveArticle()">Save Article ✍️</button>
+    </div>
 
-<h3>View PDFs</h3>
-<select id="viewClass"></select>
-<select id="viewSubject"></select>
-<button onclick="viewPDFs()">View</button>
-<div class="view-area" id="viewArea"></div>
+    <div class="success-msg" id="successMsg">Saved Successfully ✅</div>
 
-<div class="delete-section">
-<h3>Delete PDF</h3>
-<select id="deleteClass"></select>
-<select id="deleteSubject"></select>
-<select id="deletePdf"></select>
-<button class="delete-btn" onclick="deletePDF()">Delete Selected PDF</button>
-</div>
+    <h3>View PDFs</h3>
+    <select id="viewClass"></select>
+    <select id="viewSubject"></select>
+    <button onclick="viewPDFs()">View List</button>
+    <div class="view-area" id="viewArea"></div>
 
-<button onclick="logout()" style="margin-top: 20px; background: #555;">Logout</button>
+    <div class="delete-section">
+        <h3>Delete PDF</h3>
+        <select id="deleteClass"></select>
+        <select id="deleteSubject"></select>
+        <select id="deletePdf"></select>
+        <button class="delete-btn" onclick="deletePDF()">Delete Selected PDF 🗑️</button>
+    </div>
+
+    <button onclick="logout()" style="margin-top: 30px; background: #555;">Logout</button>
 
 </div>
 
@@ -90,11 +96,10 @@ button{width:100%;padding:10px;background:#0d47a1;color:white;border:none;cursor
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
 
 <script>
-
 const firebaseConfig = {
-apiKey: "AIzaSyDADvn4P8g_Dk6fraPNk56Ansrfx5ezgJU",
-authDomain: "kalvi-vaanam-db.firebaseapp.com",
-projectId: "kalvi-vaanam-db",
+    apiKey: "AIzaSyDADvn4P8g_Dk6fraPNk56Ansrfx5ezgJU",
+    authDomain: "kalvi-vaanam-db.firebaseapp.com",
+    projectId: "kalvi-vaanam-db",
 };
 
 firebase.initializeApp(firebaseConfig);
@@ -102,49 +107,63 @@ const auth = firebase.auth();
 const db = firebase.firestore();
 
 function createSlug(text){
-return text.toLowerCase()
-.replace(/[^a-z0-9 ]/g,"")
-.replace(/\s+/g,"-");
+    return text.toLowerCase()
+    .replace(/[^a-z0-9 ]/g,"")
+    .replace(/\s+/g,"-");
 }
 
 function googleLogin(){
-const provider = new firebase.auth.GoogleAuthProvider();
-auth.signInWithPopup(provider);
+    const provider = new firebase.auth.GoogleAuthProvider();
+    auth.signInWithPopup(provider);
 }
 
 auth.onAuthStateChanged(user=>{
-if(user && user.email === "ttnswamidayananda1947@gmail.com"){
-loginBox.style.display="none";
-dashboard.style.display="block";
-}else{
-loginBox.style.display="block";
-dashboard.style.display="none";
-}
+    if(user && user.email === "ttnswamidayananda1947@gmail.com"){
+        document.getElementById("loginBox").style.display="none";
+        document.getElementById("dashboard").style.display="block";
+    }else{
+        document.getElementById("loginBox").style.display="block";
+        document.getElementById("dashboard").style.display="none";
+    }
 });
 
 function logout(){ auth.signOut(); }
 
 // --- SAVE PDF FUNCTION ---
 function savePDF(){
-const classVal = classSelect.value;
-const subjectVal = subjectSelect.value;
-const name = pdfName.value;
-const link = pdfLink.value;
-const desc = pdfDesc.value;
-let slug = slugInput.value.trim();
-if(!slug) slug = createSlug(name);
+    const classVal = document.getElementById("classSelect").value;
+    const subjectVal = document.getElementById("subjectSelect").value;
+    const typeVal = document.getElementById("typeSelect").value;
+    const name = document.getElementById("pdfName").value;
+    const link = document.getElementById("pdfLink").value;
+    const desc = document.getElementById("pdfDesc").value;
+    let slug = document.getElementById("slugInput").value.trim();
 
-if(!classVal || !subjectVal || !name || !link){ alert("Fill all fields"); return; }
+    if(!slug) slug = createSlug(name);
+    if(!classVal || !subjectVal || !typeVal || !name || !link){ alert("Please fill all fields!"); return; }
 
-db.collection("classes").doc(classVal).collection("subjects").doc(subjectVal).collection("pdfs")
-.doc(slug).set({
-    name, link, description: desc, slug, createdAt: new Date()
-}).then(()=>{ showSuccess(); });
-
-pdfName.value=""; pdfLink.value=""; pdfDesc.value=""; slugInput.value="";
+    db.collection("classes").doc(classVal).collection("subjects").doc(subjectVal).collection("pdfs")
+    .doc(slug).set({
+        name: name,
+        link: link,
+        description: desc,
+        type: typeVal, // 'question' or 'study'
+        slug: slug,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    }).then(()=>{ 
+        showSuccess(); 
+        clearPDFFields();
+    }).catch(err => alert("Error: " + err));
 }
 
-// 🚀 NEW: SAVE ARTICLE FUNCTION
+function clearPDFFields(){
+    document.getElementById("pdfName").value=""; 
+    document.getElementById("pdfLink").value=""; 
+    document.getElementById("pdfDesc").value=""; 
+    document.getElementById("slugInput").value="";
+}
+
+// --- SAVE ARTICLE FUNCTION (Separate Root Collection) ---
 function saveArticle(){
     const title = document.getElementById("artTitle").value;
     const category = document.getElementById("artCategory").value;
@@ -152,75 +171,83 @@ function saveArticle(){
     let slug = document.getElementById("artSlug").value.trim();
     
     if(!slug) slug = createSlug(title);
-    if(!title || !content){ alert("Title and Content required"); return; }
+    if(!title || !content){ alert("Title and Content are required!"); return; }
 
+    // This creates a separate collection named 'articles'
     db.collection("articles").doc(slug).set({
-        title,
-        category,
-        content,
-        author: "Kalvi Vaanam Team",
-        slug,
-        createdAt: new Date()
+        title: title,
+        category: category,
+        content: content,
+        slug: slug,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
     }).then(() => {
         showSuccess();
         document.getElementById("artTitle").value = "";
         document.getElementById("artCategory").value = "";
         document.getElementById("artContent").value = "";
         document.getElementById("artSlug").value = "";
-    });
+    }).catch(err => alert("Article Error: " + err));
 }
 
 function showSuccess(){
-successMsg.style.display="block";
-setTimeout(()=>{successMsg.style.display="none";},2000);
+    const msg = document.getElementById("successMsg");
+    msg.style.display="block";
+    setTimeout(()=>{ msg.style.display="none"; }, 3000);
 }
 
 function viewPDFs(){
-const classVal = viewClass.value;
-const subjectVal = viewSubject.value;
-viewArea.innerHTML="Loading...";
-db.collection("classes").doc(classVal).collection("subjects").doc(subjectVal).collection("pdfs").get()
-.then(snapshot=>{
-viewArea.innerHTML="";
-if(snapshot.empty){ viewArea.innerHTML="No PDFs"; return; }
-snapshot.forEach(doc=>{
-const data = doc.data();
-viewArea.innerHTML += `<div><b>${data.name}</b><br>🔗 slug: ${doc.id}<br><a href="${data.link}" target="_blank">Open PDF</a><br><hr></div>`;
-});
-});
+    const classVal = document.getElementById("viewClass").value;
+    const subjectVal = document.getElementById("viewSubject").value;
+    const area = document.getElementById("viewArea");
+    area.innerHTML="Loading...";
+
+    db.collection("classes").doc(classVal).collection("subjects").doc(subjectVal).collection("pdfs").get()
+    .then(snapshot=>{
+        area.innerHTML="";
+        if(snapshot.empty){ area.innerHTML="No PDFs found."; return; }
+        snapshot.forEach(doc=>{
+            const data = doc.data();
+            area.innerHTML += `<div><b>${data.name}</b> (${data.type})<br>Slug: ${doc.id}<br><hr></div>`;
+        });
+    });
 }
 
 function loadDeleteList(){
-const classVal = deleteClass.value;
-const subjectVal = deleteSubject.value;
-const pdfSelect = document.getElementById("deletePdf");
-pdfSelect.innerHTML="";
-db.collection("classes").doc(classVal).collection("subjects").doc(subjectVal).collection("pdfs").get()
-.then(snapshot=>{
-snapshot.forEach(doc=>{
-const option = document.createElement("option");
-option.value = doc.id; option.text = doc.data().name;
-pdfSelect.appendChild(option);
-});
-});
+    const classVal = document.getElementById("deleteClass").value;
+    const subjectVal = document.getElementById("deleteSubject").value;
+    const pdfSelect = document.getElementById("deletePdf");
+    pdfSelect.innerHTML="<option>Loading...</option>";
+
+    db.collection("classes").doc(classVal).collection("subjects").doc(subjectVal).collection("pdfs").get()
+    .then(snapshot=>{
+        pdfSelect.innerHTML="";
+        snapshot.forEach(doc=>{
+            const option = document.createElement("option");
+            option.value = doc.id; option.text = doc.data().name;
+            pdfSelect.appendChild(option);
+        });
+    });
 }
 
 function deletePDF(){
-const classVal = deleteClass.value;
-const subjectVal = deleteSubject.value;
-const slug = deletePdf.value;
-if(!slug){ alert("Select PDF"); return; }
-if(!confirm("Delete this PDF?")) return;
-db.collection("classes").doc(classVal).collection("subjects").doc(subjectVal).collection("pdfs").doc(slug).delete()
-.then(()=>{ alert("Deleted Successfully ✅"); loadDeleteList(); });
+    const classVal = document.getElementById("deleteClass").value;
+    const subjectVal = document.getElementById("deleteSubject").value;
+    const slug = document.getElementById("deletePdf").value;
+    if(!slug || slug === "Loading..."){ alert("Select a PDF first"); return; }
+    if(!confirm("Are you sure you want to delete?")) return;
+
+    db.collection("classes").doc(classVal).collection("subjects").doc(subjectVal).collection("pdfs").doc(slug).delete()
+    .then(()=>{ alert("Deleted! ✅"); loadDeleteList(); });
 }
 
-viewClass.innerHTML = classSelect.innerHTML;
-viewSubject.innerHTML = subjectSelect.innerHTML;
-deleteClass.innerHTML = classSelect.innerHTML;
-deleteSubject.innerHTML = subjectSelect.innerHTML;
-deleteClass.onchange = loadDeleteList;
-deleteSubject.onchange = loadDeleteList;
+// Init Dropdowns
+document.getElementById("viewClass").innerHTML = document.getElementById("classSelect").innerHTML;
+document.getElementById("viewSubject").innerHTML = document.getElementById("subjectSelect").innerHTML;
+document.getElementById("deleteClass").innerHTML = document.getElementById("classSelect").innerHTML;
+document.getElementById("deleteSubject").innerHTML = document.getElementById("subjectSelect").innerHTML;
+
+document.getElementById("deleteClass").onchange = loadDeleteList;
+document.getElementById("deleteSubject").onchange = loadDeleteList;
 
 </script>
 </body>
