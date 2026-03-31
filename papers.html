@@ -3,33 +3,37 @@
 <head>      
 <meta charset="UTF-8">      
 <meta name="viewport" content="width=device-width, initial-scale=1.0">      
-<title>Kalvi Vaanam</title>      
-      
+<title>Kalvi Vaanam | PDFs</title>      
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Hind+Madurai:wght@400;700&display=swap" rel="stylesheet">
+
 <style>      
 body {      
     margin:0;      
-    font-family: Arial, sans-serif;      
-    background:#ffffff;      
+    font-family: 'Poppins', 'Hind Madurai', sans-serif;      
+    background:#f4f7fa;      
 }      
 .header{      
     display:flex;      
     justify-content:space-between;      
     align-items:center;      
-    padding:15px;      
-    background:#0d47a1;      
+    padding:15px 20px;      
+    background: linear-gradient(135deg, #0d47a1, #1976d2);      
     color:white;      
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }      
 .logo-area{      
     display:flex;      
     align-items:center;      
-    gap:10px;      
+    gap:12px;      
 }      
 .logo-box{      
-    width:40px;      
-    height:40px;      
+    width:42px;      
+    height:42px;      
     border-radius:50%;      
     overflow:hidden;      
     background:#ffffff;      
+    border: 2px solid #fff;
 }      
 .logo-box img{      
     width:100%;      
@@ -37,7 +41,7 @@ body {
     object-fit:cover;      
 }      
 .site-name{      
-    font-size:22px;      
+    font-size:20px;      
     font-weight:bold;      
 }      
 .menu-btn{      
@@ -48,81 +52,125 @@ body {
     position:fixed;      
     top:0;      
     left:-100%;      
-    width:250px;      
+    width:280px;      
     height:100%;      
-    background:#f5f5f5;      
-    box-shadow:2px 0 5px rgba(0,0,0,0.2);      
-    transition:0.3s;      
-    padding:20px;      
+    background:#ffffff;      
+    box-shadow:5px 0 15px rgba(0,0,0,0.2);      
+    transition:0.4s cubic-bezier(0.4, 0, 0.2, 1);      
+    padding:30px 20px;      
     z-index:1000;      
 }      
 .side-menu a{      
     display:block;      
-    margin:20px 0;      
+    margin:15px 0;      
+    padding: 12px;
     text-decoration:none;      
     color:#333;      
-    font-size:18px;      
-}      
-.close-btn{      
-    font-size:22px;      
-    cursor:pointer;      
-    text-align:right;      
-}      
+    font-size:17px;      
+    border-radius: 8px;
+    transition: 0.3s;
+}
+.side-menu a:hover { background: #e3f2fd; color: #0d47a1; }
+.close-btn{ font-size:26px; cursor:pointer; text-align:right; color: #d32f2f; margin-bottom: 20px; }      
     
 .content-area{      
-    width:90%;      
-    max-width:600px;      
+    width:92%;      
+    max-width:700px;      
     margin:30px auto;      
 }      
     
+/* PDF Card Style */
 .item-box{      
-    margin-bottom:20px;      
-    padding:10px 0;      
-    border-bottom:1px solid #ccc;      
+    background: white;
+    margin-bottom:15px;      
+    padding:20px;      
+    border-radius: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.03);
+    transition: 0.3s;
+    border-left: 5px solid #0d47a1;
 }      
+.item-box:hover {
+    transform: translateX(5px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+}
     
+.info-part {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
 .number{      
-    display:inline-block;      
-    background:#ff5722;      
+    background:#0d47a1;      
     color:white;      
-    width:25px;      
-    height:25px;      
+    width:30px;      
+    height:30px;      
     border-radius:50%;      
     text-align:center;      
-    line-height:25px;      
-    margin-right:10px;      
+    line-height:30px;      
     font-weight:bold;      
+    font-size: 14px;
+    flex-shrink: 0;
 }      
     
 .title-text{      
     font-size:16px;      
-    color:#000;      
-    font-weight:bold;      
+    color:#2c3e50;      
+    font-weight:600;      
+    line-height: 1.4;
 }      
     
 .download-link{      
+    background: #e3f2fd;
     color:#0d47a1;      
     text-decoration:none;      
     font-weight:bold;      
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-size: 14px;
+    transition: 0.3s;
 }      
+.download-link:hover {
+    background: #0d47a1;
+    color: white;
+}
     
 .more-btn{      
     display:block;      
-    margin:20px auto;      
-    padding:8px 15px;      
+    margin:30px auto;      
+    padding:12px 30px;      
     background:#0d47a1;      
     color:white;      
     border:none;      
-    border-radius:4px;      
+    border-radius:30px;      
     cursor:pointer;      
+    font-weight: bold;
+    box-shadow: 0 4px 10px rgba(13, 71, 161, 0.3);
+    transition: 0.3s;
 }      
+.more-btn:hover { background: #1565c0; transform: scale(1.05); }
     
 .footer{      
-    background:#eeeeee;      
-    padding:60px 20px;      
+    background:#ffffff;      
+    padding:40px 20px;      
     text-align:center;      
     margin-top:60px;      
+    border-top: 1px solid #eee;
 }      
+
+/* Loading Animation */
+.loading-dots:after {
+  content: ' .';
+  animation: dots 1s steps(5, end) infinite;}
+@keyframes dots {
+  0%, 20% { color: rgba(0,0,0,0); text-shadow: .25em 0 0 rgba(0,0,0,0), .5em 0 0 rgba(0,0,0,0);}
+  40% { color: #0d47a1; text-shadow: .25em 0 0 rgba(0,0,0,0), .5em 0 0 rgba(0,0,0,0);}
+  60% { text-shadow: .25em 0 0 #0d47a1, .5em 0 0 rgba(0,0,0,0);}
+  80%, 100% { text-shadow: .25em 0 0 #0d47a1, .5em 0 0 #0d47a1;}}
+
 </style>      
 </head>      
     
@@ -130,31 +178,29 @@ body {
     
 <div class="header">      
     <div class="logo-area">      
-        <div class="logo-box">      
-            <img src="logo.png">      
-        </div>      
+        <div class="logo-box"><img src="logo.png"></div>      
         <div class="site-name" id="pageTitle">Kalvi Vaanam</div>      
     </div>      
     <div class="menu-btn" onclick="openMenu()">☰</div>      
 </div>      
     
 <div class="side-menu" id="menu">      
-<div class="close-btn" onclick="closeMenu()">✖</div>      
-<a href="index.html">Home</a>      
-<a href="mailto:ttnswamidayananda1947@gmail.com">Contact</a>      
-<a href="privacy-policy.html">Privacy Policy</a>      
-<a href="disclaimer.html">Disclaimer</a>      
-<a href="about-us.html">About Us</a>      
-<a href="terms.html">Terms & Conditions</a>      
+    <div class="close-btn" onclick="closeMenu()">✖</div>      
+    <a href="index.html">🏠 Home</a>      
+    <a href="about-us.html">ℹ️ About Us</a>      
+    <a href="mailto:ttnswamidayananda1947@gmail.com">📧 Contact Us</a>      
+    <a href="privacy-policy.html">🛡️ Privacy Policy</a>      
+    <a href="disclaimer.html">⚠️ Disclaimer</a>      
+    <a href="terms.html">📄 Terms & Conditions</a>      
 </div>      
     
 <div class="content-area" id="content">
-    <p id="loadingMsg" style="text-align:center;">Loading PDFs...</p>
+    <p id="loadingMsg" style="text-align:center; font-weight: bold; color: #0d47a1;" class="loading-dots">Loading PDFs</p>
 </div>      
 <button class="more-btn" id="toggleBtn" style="display:none;">More</button>      
     
 <div class="footer">      
-<p>© <span id="year"></span> Kalvi Vaanam</p>      
+    <p>© <span id="year"></span> Kalvi Vaanam</p>      
 </div>      
     
 <script type="module">      
@@ -176,11 +222,10 @@ const db = getFirestore(app);
 const params = new URLSearchParams(window.location.search);      
 const classId = params.get("class");      
 const subject = params.get("subject");
-const materialType = params.get("type"); // ⭐ material.html-ல் இருந்து வரும் 'type' (question/study)
+const materialType = params.get("type"); 
     
-document.title = classId + "th " + subject + " " + (materialType === 'study' ? 'Study Materials' : 'Question Papers');      
-document.getElementById("pageTitle").innerText =      
-"Kalvi Vaanam - " + classId + "th " + subject;      
+document.title = classId + "th " + subject + " - " + (materialType === 'study' ? 'Materials' : 'Papers');      
+document.getElementById("pageTitle").innerText = classId + "th " + subject.toUpperCase();      
     
 let allDocs = [];      
 let expanded = false;      
@@ -191,7 +236,6 @@ async function loadPDFs() {
     
     const pdfRef = collection(db,"classes",classId,"subjects",subject,"pdfs");
     
-    // ⭐ பிடிஎஃப்-களை டைப் படி வடிகட்டும் வசதி (Filter by Type)
     let q;
     if(materialType) {
         q = query(pdfRef, where("type", "==", materialType));
@@ -211,7 +255,7 @@ async function loadPDFs() {
         });      
         
         if(allDocs.length === 0) {
-            contentDiv.innerHTML = "<p style='text-align:center;'>No PDFs found for this category.</p>";
+            contentDiv.innerHTML = "<div style='text-align:center; padding: 40px;'><p>No PDFs found here.</p><a href='index.html' style='color:#0d47a1; font-weight:bold;'>Go Home</a></div>";
         } else {
             renderItems();      
             if(allDocs.length > 5){      
@@ -220,7 +264,7 @@ async function loadPDFs() {
         }
     } catch (error) {
         console.error("Error fetching PDFs: ", error);
-        contentDiv.innerHTML = "<p style='text-align:center;'>Error loading data. Please try again.</p>";
+        contentDiv.innerHTML = "<p style='text-align:center; color: red;'>Something went wrong. Refresh the page.</p>";
     }
 }      
     
@@ -238,18 +282,17 @@ function renderItems(){
         const slug = data.slug || data.id; 
     
         div.innerHTML=`      
-            <div>      
+            <div class="info-part">      
                 <span class="number">${index+1}</span>      
                 <span class="title-text">${data.name}</span>      
             </div>      
-            <br>      
-            <a class="download-link" href="seo.html?class=${classId}&subject=${subject}&slug=${slug}">Download</a>      
+            <a class="download-link" href="seo.html?class=${classId}&subject=${subject}&slug=${slug}">View</a>      
         `;      
     
         contentDiv.appendChild(div);      
     });      
     
-    toggleBtn.textContent = expanded ? "Show Less" : "More";      
+    toggleBtn.textContent = expanded ? "Show Less" : "Load More";      
 }      
     
 document.getElementById("toggleBtn").addEventListener("click",()=>{      
