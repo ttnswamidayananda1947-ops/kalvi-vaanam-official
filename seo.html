@@ -4,64 +4,137 @@
 <meta charset="UTF-8">        
 <meta name="viewport" content="width=device-width, initial-scale=1.0">        
         
-<!-- ✅ DEFAULT SEO CONTENT (IMPORTANT 🔥) -->
 <title id="title">Download TN Question Papers PDF | Kalvi Vaanam</title>        
-        
 <meta name="description" id="desc" content="Download Tamil Nadu State Board question papers, study materials, guides for classes 6 to 12. Free PDF download.">        
 <meta name="robots" content="index, follow">        
-        
 <link rel="canonical" id="canonical" href="">        
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Hind+Madurai:wght@400;700&display=swap" rel="stylesheet">
         
 <style>        
 body{        
-    font-family: Arial, sans-serif;        
-    padding: 20px;        
+    font-family: 'Poppins', 'Hind Madurai', sans-serif;        
+    margin: 0;
+    padding: 0;
     line-height: 1.6;        
-    max-width: 800px;        
-    margin: auto;        
-    text-align: center;        
+    background-color: #f4f7fa;
+    color: #333;
 }        
+
+.header{      
+    display:flex;      
+    justify-content:space-between;      
+    align-items:center;      
+    padding:15px 20px;      
+    background: linear-gradient(135deg, #0d47a1, #1976d2);      
+    color:white;      
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}      
+
+.site-name{ font-size:20px; font-weight:bold; }
+.close-link { color: white; text-decoration: none; font-size: 24px; }
+
+.container {
+    width: 92%;
+    max-width: 700px;
+    margin: 40px auto;
+    background: white;
+    padding: 35px 25px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    text-align: center;
+}
         
 h1{        
     color: #0d47a1;        
+    font-size: 24px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #e3f2fd;
+    padding-bottom: 15px;
 }        
+
+.pdf-icon {
+    font-size: 60px;
+    margin-bottom: 15px;
+    display: block;
+}
         
 .download-btn{        
     display: inline-block;        
-    background: #0d47a1;        
+    background: linear-gradient(135deg, #0d47a1, #1976d2);        
     color: white;        
-    padding: 12px 25px;        
+    padding: 15px 35px;        
     text-decoration: none;        
-    border-radius: 6px;        
+    border-radius: 50px;        
     font-weight: bold;        
-    margin-top: 20px;        
+    margin-top: 25px;        
     font-size: 18px;        
+    box-shadow: 0 6px 15px rgba(13, 71, 161, 0.3);
+    transition: 0.3s;
 }        
+.download-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(13, 71, 161, 0.4);
+}
         
 #descText, #extraText {        
-    color: #333;        
+    color: #555;        
     font-size: 16px;        
-    margin-top: 10px;        
+    margin-top: 15px;
+    background: #f9fbff;
+    padding: 15px;
+    border-radius: 10px;
+    border-left: 4px solid #0d47a1;
+    text-align: left;
 }        
+
+.footer{      
+    background:#ffffff;      
+    padding:40px 20px;      
+    text-align:center;      
+    margin-top:60px;      
+    border-top: 1px solid #eee;
+    color: #777;
+}
+
+/* Loading Animation */
+.pulse {
+  animation: pulse-animation 2s infinite;
+}
+@keyframes pulse-animation {
+  0% { opacity: 1; }
+  50% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
 </style>        
         
 </head>        
         
 <body>        
+
+<div class="header">
+    <div class="site-name">Kalvi Vaanam</div>
+    <a href="index.html" class="close-link">✕</a>
+</div>
         
-<!-- ✅ DEFAULT CONTENT -->
-<h1 id="heading">TN State Board Question Paper Download</h1>        
-        
-<p id="descText">Get the latest school study materials and previous year question papers for class 6 to 12.</p>        
-        
-<p id="extraText">Download free PDF question papers, guides, and study materials for Tamil Nadu students.</p>        
-        
-<br>        
-        
-<a id="downloadBtn" class="download-btn">Loading PDF...</a>        
+<div class="container">
+    <span class="pdf-icon">📄</span>
+    <h1 id="heading" class="pulse">Loading Details...</h1>        
+    
+    <p id="descText">Please wait while we fetch the document information for you.</p>        
+    
+    <p id="extraText">Preparation is the key to success. Download our verified materials for better results.</p>        
+    
+    <br>        
+    
+    <a id="downloadBtn" class="download-btn pulse">Processing...</a>        
+</div>
+
+<div class="footer">
+    <p>© <span id="year"></span> Kalvi Vaanam | TN Study Portal</p>
+</div>
         
 <script type="module">        
-        
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";        
 import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";        
         
@@ -77,74 +150,74 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);        
 const db = getFirestore(app);        
         
-// ✅ URL PARAMS        
 const params = new URLSearchParams(window.location.search);        
 const classId = params.get("class");        
 const subject = params.get("subject");        
 const slugId = params.get("slug");        
         
 async function load(){        
-        
-if(!classId || !subject || !slugId){        
-    document.getElementById("heading").innerText = "Invalid Link ❌";        
-    return;        
-}        
-        
-try{        
-    const ref = doc(db, "classes", classId, "subjects", subject, "pdfs", slugId);        
-    const snap = await getDoc(ref);        
-        
-    if(!snap.exists()){        
-        document.getElementById("heading").innerText = "PDF Not Found ❌";        
+    const heading = document.getElementById("heading");
+    const btn = document.getElementById("downloadBtn");
+
+    if(!classId || !subject || !slugId){        
+        heading.innerText = "Invalid Link ❌";        
+        heading.classList.remove("pulse");
         return;        
     }        
-        
-    const data = snap.data();        
-    const pdf = data.link || data.pdfUrl;        
-        
-    if(!pdf){        
-        document.getElementById("heading").innerText = "PDF Link Missing ❌";        
-        return;        
+            
+    try{        
+        const ref = doc(db, "classes", classId, "subjects", subject, "pdfs", slugId);        
+        const snap = await getDoc(ref);        
+            
+        if(!snap.exists()){        
+            heading.innerText = "PDF Not Found ❌";        
+            heading.classList.remove("pulse");
+            return;        
+        }        
+            
+        const data = snap.data();        
+        const pdf = data.link || data.pdfUrl;        
+            
+        if(!pdf){        
+            heading.innerText = "PDF Link Missing ❌";        
+            heading.classList.remove("pulse");
+            return;        
+        }        
+            
+        // ✅ SEO & CONTENT UPDATE
+        const pageTitle = data.name + " | Download PDF | Kalvi Vaanam";        
+        document.title = pageTitle;        
+        heading.innerText = data.name;        
+        heading.classList.remove("pulse");
+
+        const dText = data.name + " PDF Download. " + classId + "th " + subject + " Question Papers & Study Materials Tamil Nadu Board.";        
+        document.getElementById("desc").setAttribute("content", dText);        
+        document.getElementById("descText").innerText = dText;        
+            
+        const customDesc = data.description || "";        
+        if(customDesc){        
+            document.getElementById("extraText").innerText = customDesc;        
+        }else{        
+            document.getElementById("extraText").innerText = 
+            "This " + subject + " material is carefully prepared for class " + classId + " students to help in their upcoming examinations.";        
+        }        
+            
+        document.getElementById("canonical").href = window.location.origin + window.location.pathname + "?class=" + classId + "&subject=" + subject + "&slug=" + slugId;        
+            
+        // ✅ DOWNLOAD BUTTON        
+        btn.href = pdf;        
+        btn.target = "_blank";        
+        btn.innerText = "⬇️ Download PDF Now";        
+        btn.classList.remove("pulse");
+
+    } catch(err){        
+        console.log(err);        
+        heading.innerText = "Error loading data ❌";        
     }        
-        
-    // ✅ REAL SEO TITLE        
-    const pageTitle = data.name + " | Download PDF | Kalvi Vaanam";        
-    document.title = pageTitle;        
-        
-    // ✅ HEADING UPDATE        
-    document.getElementById("heading").innerText = data.name;        
-        
-    // ✅ DESCRIPTION        
-    const dText = data.name + " PDF Download. " + classId + "th " + subject + " Question Papers Tamil Nadu Board.";        
-    document.getElementById("desc").setAttribute("content", dText);        
-    document.getElementById("descText").innerText = dText;        
-        
-    // ✅ 🔥 CUSTOM DESCRIPTION FROM FIRESTORE        
-    const customDesc = data.description || "";        
-        
-    if(customDesc){        
-        document.getElementById("extraText").innerText = customDesc;        
-    }else{        
-        document.getElementById("extraText").innerText = 
-        "This " + subject + " question paper is useful for class " + classId + " students. Download and prepare for exams easily.";        
-    }        
-        
-    // ✅ CANONICAL        
-    document.getElementById("canonical").href = window.location.origin + window.location.pathname + "?class=" + classId + "&subject=" + subject + "&slug=" + slugId;        
-        
-    // ✅ DOWNLOAD BUTTON        
-    const btn = document.getElementById("downloadBtn");        
-    btn.href = pdf;        
-    btn.target = "_blank";        
-    btn.innerText = "Download PDF Now";        
-        
-} catch(err){        
-    console.log(err);        
-    document.getElementById("heading").innerText = "Error loading data ❌";        
-}        
 }        
         
 load();        
+document.getElementById("year").textContent = new Date().getFullYear();
 </script>        
         
 </body>        
